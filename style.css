@@ -515,5 +515,6 @@ height: 160px;
 }
 .recent_order table tr th{
     font-size: 10px;
+   margin-left: 100px;
 }
 }
