@@ -9,6 +9,18 @@
 </head>
 <body>
     <div class="container">
+
+
+     <!-- <div id="addstudent">
+      <form>
+        <label for="name">Name</label>
+
+      </form>
+     </div> -->
+
+
+
+
         <!-- Aside section start -->
          <aside>
            <div class="top">
@@ -53,9 +65,9 @@
                     <span class="material-symbols-outlined">settings</span>
                     <h3>settings</h3>
                 </a>
-                <a href="#">
+                <a href="#" onclick="AddStudentHandler()">
                     <span class="material-symbols-outlined">add</span>
-                    <h3>Add products</h3>
+                    <h3>Add Student</h3>
                 </a>
 
                 <a href="#">
@@ -70,31 +82,39 @@
             <h1>Dashboard</h1>
 
 
-            <div class="date">
+            <!-- <div class="date">
                 <input type="date">
-            </div>
+            </div> -->
 
             <div class="insight">
                 <!-- start selling -->
-                 <div class="sales">
-                    <span class="material-symbols-outlined">trending_up</span>
+                 <div class="first-rooms-section">
+                    <!-- <span class="material-symbols-outlined">trending_up</span> -->
                     <div class="middle">
                         <div class="left">
-                            <h3>Total Sales</h3>
-                            <h1>$25,023</h1>
+                            <h1>Rooms</h1>
+                           <div class="roomsdiv">
+                            <div class="All-rooms">
+                                <button>Room 1</button>
+                                <button>Room 2</button>
+                                <button>Room 3</button>
+                                <!-- <button>Room 4</button> -->
+                            </div>
+                            <div class="All-rooms">
+                                  <button>Room 4</button>
+                                  <button>Room 5</button>
+                                  <button>Room 6</button>
+                                  <!-- <button>Room 4</button> -->
+                            </div>
+                           </div>
                         </div>
-                        <div class="progress">
-                            <svg>
-                                <circle r="30" cy="40" cx="40"></circle>
-                            </svg>
-                            <div class="number">80%</div>
-                        </div>
+                       
                     </div>
-                    <small>Last 24 Hours</small>
+                    <!-- <small>Last 24 Hours</small> -->
                  </div>
                 <!-- end selling -->
                         <!-- start expences -->
-                        <div class="expenses">
+                        <!-- <div class="expenses">
                             <span class="material-symbols-outlined">local_mall</span>
                             <div class="middle">
                                 <div class="left">
@@ -109,32 +129,39 @@
                                 </div>
                             </div>
                             <small>Last 24 Hours</small>
-                         </div>
+                         </div> -->
                         <!-- end expences -->
 
                                <!-- start selling -->
-                 <div class="income">
-                    <span class="material-symbols-outlined">stacked_line_chart</span>
+                 <div class="second-rooms-section">
+                    <!-- <span class="material-symbols-outlined">stacked_line_chart</span> -->
                     <div class="middle">
                         <div class="left">
-                            <h3>Income</h3>
-                            <h1>$25,023</h1>
-                        </div>
-                        <div class="progress">
-                            <svg>
-                                <circle r="30" cy="40" cx="40"></circle>
-                            </svg>
-                            <div class="number">80%</div>
+                            <h1>Rooms</h1>
+                            <div class="roomsdiv">
+                             <div class="All-rooms">
+                                 <button onclick="Roomhandler()" id="room1">Room 1</button>
+                                 <button>Room 2</button>
+                                 <button>Room 3</button>
+                                 <!-- <button>Room 4</button> -->
+                             </div>
+                             <div class="All-rooms">
+                                   <button>Room 4</button>
+                                   <button>Room 5</button>
+                                   <button>Room 6</button>
+                                   <!-- <button>Room 4</button> -->
+                             </div>
+                            </div>
                         </div>
                     </div>
-                    <small>Last 24 Hours</small>
+                    <!-- <small>Last 24 Hours</small> -->
                  </div>
                 <!-- end selling -->
 
             </div>
             <!-- End Inside -->
              <!-- Start recent Order -->
-              <div class="rooms">
+              <div class="rooms" id="myroom">
                 <h1>Room No : 1</h1>
               <!-- </div> -->
               <table>
@@ -242,6 +269,53 @@
 
           </div>
           <!-- Right section end -->
+        
+
+          <div id="addstudent-backdrop"></div>
+
+          <!-- Add Student Form -->
+          <div id="addstudent">
+              <!-- Close Icon -->
+              <span class="close-icon" onclick="CloseAddStudentForm()">×</span>
+      
+              <form>
+                  <!-- Name Field -->
+                  <label for="name">Name:</label>
+                  <input type="text" id="name" name="name" placeholder="Enter Name" required>
+                  <br>
+      
+                  <!-- Father Name Field -->
+                  <label for="father_name">Father Name:</label>
+                  <input type="text" id="father_name" name="father_name" placeholder="Enter Father's Name" required>
+                  <br>
+      
+                  <!-- Image Source Field -->
+                  <label for="image_src">Image Source:</label>
+                  <input type="text" id="image_src" name="image_src" placeholder="Enter Image URL" required>
+                  <br>
+      
+                  <!-- Batch Field -->
+                  <label for="batch">Batch:</label>
+                  <input type="text" id="batch" name="batch" placeholder="Enter Batch" required>
+                  <br>
+      
+                  <!-- Department Field -->
+                  <label for="department">Department:</label>
+                  <input type="text" id="department" name="department" placeholder="Enter Department" required>
+                  <br>
+      
+                  <!-- Submit Button -->
+                  <button type="submit">Submit</button>
+              </form>
+          </div>
+      
+          <!-- Trigger Button -->
+          <button onclick="AddStudentHandler()">Open Add Student Form</button>
+
+
+
+
+
     </div>
 
 
