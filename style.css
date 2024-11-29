@@ -101,14 +101,18 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+    /* background-color: rgba(255, 255, 255, 0.9); Slightly transparent white */
+    background-color: var(--clr-color-background);
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     display: none; /* Hidden by default */
     width: 600px;
+    color: var(--clr-dark);
     /* text-align: center; */
+    /* overflow: scroll; */
+    /* padding: 100px; */
 }
 
 /* Styling for the backdrop (transparent background) */
@@ -129,13 +133,14 @@
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
+    /* overflow: scroll; */
 }
 
 #addstudent input {
     display: flex;
     width: 100%;
     padding: 8px;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
@@ -143,7 +148,7 @@
 #addstudent button {
     padding: 10px 20px;
     background-color: #007bff;
-    color: white;
+    color:var(--clr-dark);
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -691,3 +696,8 @@ aside.active {
 
 
 }
+
+
+
+
+
