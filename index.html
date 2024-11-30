@@ -41,7 +41,7 @@
                     <h3>Dashboard</h3>
                 </a>
 
-                <a href="#" id="rooms">
+                <a href="#" id="rooms" onclick="showBothBlocks()">
                     <span class="icon">🛏</span>
                    <h3>Rooms</h3>
                 </a>
@@ -57,10 +57,10 @@
                     <h3>Residents</h3>
                 </a> -->
 
-                <a href="#" id="allocations">
+                <!-- <a href="#" id="allocations">
                     <span class="icon">📋</span>
                     <h3>Allocations</h3>
-                  </a>
+                  </a> -->
             
                   <a href="#" id="payments">
                     <span class="icon">💳</span>
@@ -71,15 +71,15 @@
                     <span class="icon">📢</span>
                    <h3>Complaints</h3>
                   </a>
-                  <a href="#" id="visitors">
+                  <!-- <a href="#" id="visitors">
                     <span class="icon">🪪</span>
                   <h3>Visitors Log</h3>
-                  </a>
+                  </a> -->
                   
-                  <a href="#" id="inventory">
+                  <!-- <a href="#" id="inventory">
                     <span class="icon">📦</span>
                     <h3>Inventory</h3>
-                  </a>
+                  </a> -->
             
             
                 <!-- <a href="#" class="active">
@@ -95,10 +95,10 @@
                     <span class="material-symbols-outlined">receipt_long</span>
                     <h3>Products</h3>
                 </a> -->
-                <a href="#">
+                <!-- <a href="#">
                     <span class="material-symbols-outlined">report_gmailerrorred</span>
                     <h3>Reports</h3>
-                </a>
+                </a> -->
                 <!-- <a href="#">
                     <span class="material-symbols-outlined">settings</span>
                     <h3>settings</h3>
@@ -126,74 +126,29 @@
 
             <div class="insight">
                 <!-- start selling -->
-                 <div class="first-rooms-section">
-                    <!-- <span class="material-symbols-outlined">trending_up</span> -->
-                    <div class="middle">
-                        <div class="left">
-                            <h1>Rooms</h1>
-                           <div class="roomsdiv">
-                            <div class="All-rooms">
-                                <button>Room 1</button>
-                                <button>Room 2</button>
-                                <button>Room 3</button>
-                                <!-- <button>Room 4</button> -->
-                            </div>
-                            <div class="All-rooms">
-                                  <button>Room 4</button>
-                                  <button>Room 5</button>
-                                  <button>Room 6</button>
-                                  <!-- <button>Room 4</button> -->
-                            </div>
-                           </div>
-                        </div>
-                       
-                    </div>
-                    <!-- <small>Last 24 Hours</small> -->
-                 </div>
-                <!-- end selling -->
-                        <!-- start expences -->
-                        <!-- <div class="expenses">
-                            <span class="material-symbols-outlined">local_mall</span>
-                            <div class="middle">
-                                <div class="left">
-                                    <h3>Expenses</h3>
-                                    <h1>$25,023</h1>
-                                </div>
-                                <div class="progress">
-                                    <svg>
-                                        <circle r="30" cy="40" cx="40"></circle>
-                                    </svg>
-                                    <div class="number">80%</div>
-                                </div>
-                            </div>
-                            <small>Last 24 Hours</small>
-                         </div> -->
-                        <!-- end expences -->
+               <!-- block 1 and block 2 rooms are in this section -->
 
-                               <!-- start selling -->
-                 <div class="second-rooms-section">
-                    <!-- <span class="material-symbols-outlined">stacked_line_chart</span> -->
-                    <div class="middle">
-                        <div class="left">
-                            <h1>Rooms</h1>
-                            <div class="roomsdiv">
-                             <div class="All-rooms">
-                                 <button onclick="Roomhandler()" id="room1">Room 1</button>
-                                 <button>Room 2</button>
-                                 <button>Room 3</button>
-                                 <!-- <button>Room 4</button> -->
-                             </div>
-                             <div class="All-rooms">
-                                   <button>Room 4</button>
-                                   <button>Room 5</button>
-                                   <button>Room 6</button>
-                                   <!-- <button>Room 4</button> -->
-                             </div>
+               <div class="insight-section">
+                <h1 style="text-align: center;">Insight Section</h1>
+                <div class="middle">
+                    <div class="left">
+                        <!-- <h1 style="text-align: center;">Insight Section</h1> -->
+                        <div class="expense-income-div">
+                            <div class="expense-section">
+                                <!-- <button onclick="Roomhandler()" id="room1">Room 1</button>
+                                <button>Room 2</button>
+                                <button>Room 3</button> -->
+                            </div>
+                            <div class="income-section">
+                                <!-- <button>Room 4</button>
+                                <button>Room 5</button>
+                                <button>Room 6</button> -->
                             </div>
                         </div>
                     </div>
-                    <!-- <small>Last 24 Hours</small> -->
-                 </div>
+                </div>
+            </div>
+
                 <!-- end selling -->
 
             </div>
@@ -346,8 +301,11 @@
                   <br> -->
       
                   <!-- Department Field -->
-                  <label for="department">Department:</label>
-                  <input type="text" id="department" name="department" placeholder="Enter Department" required>
+                  <label for="department">Block No:</label>
+                  <input type="text" id="department" name="bocknumber" placeholder="Enter Block Number" required>
+                  <br>
+                  <label for="department">Room No:</label>
+                  <input type="text" id="department" name="roomnumber" placeholder="Enter Room Number" required>
                   <br>
       
                   <!-- Submit Button -->
