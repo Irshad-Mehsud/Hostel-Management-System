@@ -96,30 +96,7 @@
     /* display: none; */
 }
 
-/* .insight .insight-section{
-    width:730px;
-    color: var(--clr-white);
-    background: var(--clr-white);
-} */
-/* .insight insight-section h1{
-    text-align: center;
-} */
- /* .expense-section,.income-section{
-    background-color:var(--clr-color-background);
-    margin: 10px 90px;
-    color:var(--clr-dark);
-  
-    position: relative;
-    height: 115px;
-    width: 490px;
-    border-radius: 5px;
- } */
- /* expense-income-div{
-    display: flex;
-    justify-content: center;
-    align-items: center;
- 
- } */
+
 
 
 
@@ -172,6 +149,80 @@
     font-size: 18px;
     color: #666;
 }
+
+
+/* ======================roooomsss */
+
+/* Main Card Styling */
+.insight-section{
+    /* background-color: red; */
+    width: 730px;
+}
+.main-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+    background-color: var(--clr-white);
+    border-radius: 12px;
+    box-shadow: var(--box-shadow);
+    padding: 20px;
+    margin-top: 20px;
+    /* background-color: red; */
+}
+
+/* Sub-card Styling (inside the main card) */
+.sub-card {
+    flex: 1;
+    background-color:var(--clr-white);
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: var(--box-shadow);
+    text-align: center;
+}
+
+/* Sub-card Header */
+.sub-card h2 {
+    font-size: 24px;
+    color: var(--clr-dark);
+    margin-bottom: 15px;
+}
+
+/* Rooms Div Styling */
+.roomsdiv {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Button Styling for Rooms */
+.All-rooms button {
+    padding: 10px;
+    background:var(--clr-white);
+    color:var(--clr-white);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.All-rooms button:hover {
+    background-color: var(--clr-white);
+}
+
+/* Flexbox container for the main sections */
+.middle {
+    display: flex;
+    justify-content: space-between;
+}
+
+.left {
+    flex: 1;
+}
+
+
+/* ========================roooommmmss */
+
 
 @media screen and (max-width: 768px) {
     .expense-income-div {
@@ -244,8 +295,11 @@
     width: 100%;
     padding: 8px;
     margin-bottom: 5px;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     border-radius: 5px;
+    /* background:red !important; */
+    background: var(--clr-white);
+    outline: none;
 }
 
 #addstudent button {

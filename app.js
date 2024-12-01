@@ -54,15 +54,6 @@ themeToggler.addEventListener("click", () => {
 // Rooms.style.background="red";
 // var allRooms=document.getElementById("myroom");
 // allRooms.style.display = "none";
-function Roomhandler() {
-  // var allRooms=document.getElementsByClassName("rooms");
-  var Rooms = document.getElementById("room1");
-  // allRooms.style.display = "none";
-  Rooms.style.background = "red";
-  alert("chal raha hon");
-  var allRooms = document.getElementById("myroom");
-  allRooms.style.display = "block";
-}
 
 
 function AddStudentHandler() {
@@ -87,51 +78,124 @@ function CloseAddStudentForm() {
     backdrop.style.display = 'none';
 }
 
-
-function showBothBlocks() {
-  const insightContainer = document.querySelector('.insight');
-  insightContainer.innerHTML = `
-      <!-- Block 1 Rooms -->
-      <div class="first-rooms-section">
-          <div class="middle">
-              <div class="left">
-                  <h1>Block 1 Rooms</h1>
-                  <div class="roomsdiv">
-                      <div class="All-rooms">
-                          <button>Room 1</button>
-                          <button>Room 2</button>
-                          <button>Room 3</button>
-                      </div>
-                      <div class="All-rooms">
-                          <button>Room 4</button>
-                          <button>Room 5</button>
-                          <button>Room 6</button>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-
-      <!-- Block 2 Rooms -->
-      <div class="second-rooms-section">
-          <div class="middle">
-              <div class="left">
-                  <h1>Block 2 Rooms</h1>
-                  <div class="roomsdiv">
-                      <div class="All-rooms">
-                          <button onclick="Roomhandler()" id="room1">Room 1</button>
-                          <button>Room 2</button>
-                          <button>Room 3</button>
-                      </div>
-                      <div class="All-rooms">
-                          <button>Room 4</button>
-                          <button>Room 5</button>
-                          <button>Room 6</button>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  `;
+function Roomhandler() {
+    // var allRooms=document.getElementsByClassName("rooms");
+  var Rooms = document.getElementById("room1");
+  // allRooms.style.display = "none";
+  Rooms.style.background = "red";
+  alert("chal raha hon");
+  var allRooms = document.getElementById("myroom");
+  allRooms.style.display = "block";
+    
 }
+
+
+
+// Function to display Income and Expense cards
+function addCards() {
+    var allRooms = document.getElementById("myroom");
+    const container = document.querySelector('.insight-section');
+    const cardsHTML = `
+        <div class="expense-income-div">
+            <div class="card income-section">
+                <div class="icon">
+                    <span class="material-symbols-outlined">trending_up</span>
+                </div>
+                <div class="content">
+                    <h2>Income</h2>
+                    <p>$10,000</p>
+                </div>
+            </div>
+            <div class="card expense-section">
+                <div class="icon">
+                    <span class="material-symbols-outlined">trending_down</span>
+                </div>
+                <div class="content">
+                    <h2>Expenses</h2>
+                    <p>$5,000</p>
+                </div>
+            </div>
+        </div>
+    `;
+    container.innerHTML = cardsHTML;
+    allRooms.style.display = "none";
+
+}
+// Call addCards() when the page is loaded
+window.onload = function() {
+    addCards(); // Display the income and expense cards initially
+};
+
+
+
+// Function to display the rooms
+function showBothBlocks() {
+    const container = document.querySelector('.insight-section');
+    const roomCardsHTML = `
+        <div class="first-rooms-section">
+    <div class="middle">
+        <div class="left">
+            <h1>Block 1 Rooms</h1>
+            <!-- Main Card for Block 1 -->
+            <div class="main-card">
+                <!-- Sub-card 1 for Block 1 (Rooms 1-3) -->
+                <div class="sub-card">
+                    <h2>Rooms 1-3</h2>
+                    <div class="roomsdiv">
+                        <button id="room1" onclick="Roomhandler()">Room 1</button>
+                        <button>Room 2</button>
+                        <button>Room 3</button>
+                    </div>
+                </div>
+
+                <!-- Sub-card 2 for Block 1 (Rooms 4-6) -->
+                <div class="sub-card">
+                    <h2>Rooms 4-6</h2>
+                    <div class="roomsdiv">
+                        <button>Room 4</button>
+                        <button>Room 5</button>
+                        <button>Room 6</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="second-rooms-section">
+    <div class="middle">
+        <div class="left">
+            <h1>Block 2 Rooms</h1>
+            <!-- Main Card for Block 2 -->
+            <div class="main-card">
+                <!-- Sub-card 1 for Block 2 (Rooms 1-3) -->
+                <div class="sub-card">
+                    <h2>Rooms 1-3</h2>
+                    <div class="roomsdiv">
+                        <button>Room 1</button>
+                        <button>Room 2</button>
+                        <button>Room 3</button>
+                    </div>
+                </div>
+
+                <!-- Sub-card 2 for Block 2 (Rooms 4-6) -->
+                <div class="sub-card">
+                    <h2>Rooms 4-6</h2>
+                    <div class="roomsdiv">
+                        <button>Room 4</button>
+                        <button>Room 5</button>
+                        <button>Room 6</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    `;
+    container.innerHTML = roomCardsHTML;
+}
+
+
+
 
