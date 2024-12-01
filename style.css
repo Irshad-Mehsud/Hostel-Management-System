@@ -96,25 +96,99 @@
     /* display: none; */
 }
 
-.insight .insight-section{
+/* .insight .insight-section{
     width:730px;
-    background-color: red;
-}
+    color: var(--clr-white);
+    background: var(--clr-white);
+} */
 /* .insight insight-section h1{
     text-align: center;
 } */
- .expense-section,.income-section{
-    background-color: green;
-    /* width: 500px; */
+ /* .expense-section,.income-section{
+    background-color:var(--clr-color-background);
+    margin: 10px 90px;
+    color:var(--clr-dark);
+  
     position: relative;
-    height: 108px;
-    width: 400px;
- }
- expense-income-div{
+    height: 115px;
+    width: 490px;
+    border-radius: 5px;
+ } */
+ /* expense-income-div{
     display: flex;
     justify-content: center;
     align-items: center;
- }
+ 
+ } */
+
+
+
+ /* =================== */
+
+ /* Container Styling */
+.expense-income-div {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* Card Styling */
+.card {
+    width: 300px;
+    padding: 20px;
+    background-color:var(--clr-white);
+    border-radius: 12px;
+    /* box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); */
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Icon Styling */
+.card .icon {
+    font-size: 40px;
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+.expense-section .icon {
+    color: #F44336;
+}
+
+/* Content Styling */
+.card .content h2 {
+    font-size: 24px;
+    color:var(--clr-dark);
+    margin: 10px 0;
+}
+
+.card .content p {
+    font-size: 18px;
+    color: #666;
+}
+
+@media screen and (max-width: 768px) {
+    .expense-income-div {
+        flex-direction: column; /* Stack cards in a column */
+        align-items: center;
+    }
+
+    .card {
+        width: 500px; /* Make cards take most of the screen width */
+        margin-bottom: 20px; /* Add spacing between stacked cards */
+    }
+}
+
+
+ /* =================== */
+
+
 
 
 
