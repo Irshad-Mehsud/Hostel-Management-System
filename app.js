@@ -27,6 +27,10 @@
 //     themeToggler.querySelector("span:nth-child(2)").classList.toggle("active")
 // })
 
+
+
+
+
 const sideMenu = document.querySelector("aside");
 const menuBtn = document.querySelector("#menu_bar");
 const closeBtn = document.querySelector("#close_btn");
@@ -122,9 +126,9 @@ function addCards() {
 
 }
 // Call addCards() when the page is loaded
-window.onload = function() {
-    addCards(); // Display the income and expense cards initially
-};
+// window.onload = function() {
+//     addCards(); // Display the income and expense cards initially
+// };
 
 
 
@@ -195,6 +199,225 @@ function showBothBlocks() {
     `;
     container.innerHTML = roomCardsHTML;
 }
+
+
+
+// =====================Admin Form Js==============
+
+
+// Event listener for form submission
+// Event listener for form submission
+// document.getElementById("admin-form").addEventListener("submit", function (e) {
+//     e.preventDefault();
+  
+//     // Get form values
+//     const name = document.getElementById("admin-name").value.trim();
+//     const email = document.getElementById("admin-email").value.trim();
+//     const role = document.getElementById("admin-role").value.trim();
+//     const photoURL = document.getElementById("admin-photo").value.trim();
+//     const password = document.getElementById("admin-password").value.trim();
+//     const confirmPassword = document.getElementById("confirm-password").value.trim();
+  
+//     // Check if passwords match
+//     if (password !== confirmPassword) {
+//       alert("Passwords do not match!");
+//       return;
+//     }
+  
+//     // Create an object to store the admin data
+//     const adminData = {
+//       name,
+//       email,
+//       role,
+//       photoURL,
+//     };
+  
+//     // Store the data in localStorage
+//     localStorage.setItem("adminProfile", JSON.stringify(adminData));
+  
+//     // Call the function to update profile immediately
+//     updateProfile();
+  
+//     // Clear the form
+//     document.getElementById("admin-form").reset();
+  
+//     alert("Admin profile created successfully!");
+//   });
+  
+//   // Function to update profile from localStorage
+//   function updateProfile() {
+//     const savedProfile = localStorage.getItem("adminProfile");
+  
+//     if (savedProfile) {
+//       const profileData = JSON.parse(savedProfile);
+  
+//       // Only update the profile section
+//       const profileName = document.getElementById("profile-name");
+//       const profileRole = document.getElementById("profile-role");
+//       const profilePhoto = document.getElementById("profile-photo");
+  
+//       // Update the profile information dynamically
+//       profileName.textContent = profileData.name;
+//       profileRole.textContent = profileData.role;
+//       profilePhoto.src = profileData.photoURL || './default-image.jpg';
+//     }
+//   }
+
+
+// Submit handler for creating admin profile
+
+  
+  
+
+
+// =====================Admin Form Js End==========
+
+// =====================admin dropdown==============
+
+
+
+// Function to show the form
+function showAdminForm() {
+    // Ensure the form is visible
+    document.getElementById("form-container").style.display = "flex";
+  }
+  
+  // Function to hide the form
+  function hideAdminForm() {
+    // Hide the form
+    document.getElementById("form-container").style.display = "none";
+  }
+  
+  // Wait for the DOM to load before setting up the event listener
+  var ShowAdminOnLoad= function() {
+    document.getElementById("form-container").style.display = "none";
+    
+  };
+
+
+    // On page load, update the profile if data exists in localStorage
+    window.onload = function () {
+
+        addCards(); // Display the income and expense cards initially
+        // Call updateProfile only if there is data stored in localStorage
+    
+        ShowAdminOnLoad();
+        // if (localStorage.getItem("adminProfile")) {
+        //   updateProfile();
+          
+    
+    
+        // }
+        updateProfile();
+      };
+
+
+    //   ====================Logout Functionaity===============
+    // Function to logout the admin (remove data from localStorage)
+// Function to logout the admin (remove data from localStorage)
+function logoutAdmin() {
+    // Remove the admin profile from localStorage
+    localStorage.removeItem("adminProfile");
+  
+    // Optionally, reset form and profile section
+    document.getElementById("admin-form").reset(); // Clear the form
+    const profileName = document.getElementById("profile-name");
+    const profileRole = document.getElementById("profile-role");
+    const profilePhoto = document.getElementById("profile-photo");
+  
+    profileName.textContent = 'Profile';
+    profileRole.textContent = 'Role';
+    profilePhoto.src = './Assets/images.png'; // Reset to default image
+  
+    alert("You have logged out successfully!");
+  }
+  
+  // Add event listener for logout
+  document.getElementById("logout-button").addEventListener("click", logoutAdmin);
+
+
+
+  // Submit handler for creating admin profile
+document.getElementById("admin-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    
+    // Check if the profile already exists in localStorage
+    const savedProfile = localStorage.getItem("adminProfile");
+    if (savedProfile) {
+      alert("Admin profile already exists!");
+      return; // Exit if the profile already exists
+    }
+  
+    // Get form values
+    const name = document.getElementById("admin-name").value.trim();
+    const email = document.getElementById("admin-email").value.trim();
+    const role = document.getElementById("admin-role").value.trim();
+    const photoURL = document.getElementById("admin-photo").value.trim();
+    const password = document.getElementById("admin-password").value.trim();
+    const confirmPassword = document.getElementById("confirm-password").value.trim();
+  
+    // Check if passwords match
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+  
+    // Create admin data object
+    const adminData = {
+      name,
+      email,
+      role,
+      photoURL,
+    };
+  
+    // Store in localStorage
+    localStorage.setItem("adminProfile", JSON.stringify(adminData));
+  
+    // Update profile immediately
+    updateProfile();
+  
+    // Clear the form
+    document.getElementById("admin-form").reset();
+  
+    alert("Admin profile created successfully!");
+  });
+// Function to update profile from localStorage
+function updateProfile() {
+  const savedProfile = localStorage.getItem("adminProfile");
+
+  if (savedProfile) {
+    const profileData = JSON.parse(savedProfile);
+
+    // Update the profile section with the data from localStorage
+    const profileName = document.getElementById("profile-name");
+    const profileRole = document.getElementById("profile-role");
+    const profilePhoto = document.getElementById("profile-photo");
+
+    profileName.textContent = profileData.name;
+    profileRole.textContent = profileData.role;
+    profilePhoto.src = profileData.photoURL || './default-image.jpg';
+  } else {
+    // If no profile exists, ensure the profile section is empty
+    const profileName = document.getElementById("profile-name");
+    const profileRole = document.getElementById("profile-role");
+    const profilePhoto = document.getElementById("profile-photo");
+
+    profileName.textContent = 'No Profile';
+    profileRole.textContent = 'No Role';
+    profilePhoto.src = './Assets/images.png'; // Default image
+  }
+}
+// =============================Logout Functionality End================  
+
+
+// Function to toggle the dropdown visibility
+function toggleDropdown() {
+    const dropdown = document.getElementById('profile-dropdown');
+    dropdown.style.display = (dropdown.style.display === 'block') ? 'none' : 'block';
+  }
+  
+
+// =====================admin dropdown end==========
 
 
 

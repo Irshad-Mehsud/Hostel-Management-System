@@ -855,6 +855,201 @@ aside.active {
 }
 
 
+/* =====================Admin form styling======================= */
+  #Hidden{
+    display: none;
+  }
+
+  
+  /* Overlay for transparent background */
+  #form-container {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5); /* Transparent background */
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #form-wrapper {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    font-family: Arial, sans-serif;
+  }
+  
+
+  
+  
+  /* Form Header */
+  .form-header {
+    position: relative;
+    text-align: right;
+    margin-bottom: 10px;
+  }
+  
+  /* Close Button */
+  .form-header .close-button {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    background: none;
+    border: none;
+    line-height: 1;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+  }
+  
+  .form-header .close-button:hover {
+    color: #ff0000;
+  }
+  
+  /* Form Labels */
+  #admin-form label {
+    display: block;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  /* Form Inputs */
+  #admin-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease-in-out;
+  }
+  
+  /* Focused Input */
+  #admin-form input:focus {
+    outline: none;
+    border-color: #4caf50;
+    box-shadow: 0px 0px 5px rgba(76, 175, 80, 0.3);
+  }
+  
+  /* Submit Button */
+  #admin-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+  }
+  
+  #admin-form button:hover {
+    background-color: #45a049;
+    transform: translateY(-3px);
+  }
+  
+  #admin-form button:active {
+    transform: translateY(1px);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    #form-wrapper {
+      padding: 15px;
+    }
+  
+    #admin-form label {
+      font-size: 12px;
+    }
+  
+    #admin-form input {
+      font-size: 12px;
+    }
+  
+    #admin-form button {
+      font-size: 14px;
+    }
+  
+    .form-header .close-button {
+      font-size: 20px;
+    }
+  }
+  
+  
+  
+
+/* ======================Admin form stying end */
+
+
+/* =======================admin dropdown==================== */
+
+/* Style for the profile div */
+.profile {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  /* Style for the dropdown */
+  #profile-dropdown {
+    display: none;  /* Hidden by default */
+    position: absolute;
+    top: 100%;
+    right: -10px;
+    background-color:var(--clr-color-background);
+    min-width: 200px;
+    box-shadow:var(--box-shadow);
+    z-index: 1;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+  
+  #profile-dropdown a {
+    color:var(--clr-dark);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;    
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+  
+  #profile-dropdown a:hover {
+    background-color:var(--clr-white);
+  }
+  
+  /* Style for profile info */
+  .profile .info {
+    cursor: pointer;
+  }
+  
+
+  @media (max-width: 768px) {
+    
+    #profile-dropdown{
+        right: -60px;
+    }
+
+    }
+  
+
+ 
+
+/* =======================admin dropdown end================ */
+
+
+
 
 
 

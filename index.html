@@ -9,6 +9,11 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon"
     />
     <title>Document</title>
+
+
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"></script>
   </head>
   <body>
     <div class="container">
@@ -192,16 +197,24 @@
             <span class="material-symbols-outlined active">light_mode</span>
             <span class="material-symbols-outlined">dark_mode</span>
           </div>
-          <div class="profile">
-            <div class="info">
-              <p><b>Irshad</b></p>
-              <p>Admin</p>
+          <div class="profile" onclick="toggleDropdown()">
+            <div class="info" id="profile-info">
+              <p><b id="profile-name">Irshad Ahmad</b></p>
+              <p id="profile-role">Admin</p>
               <small class="text-muted"></small>
             </div>
             <div class="profile-photo">
-              <img src="./Assets/image-1.jpg" alt="" />
+              <img id="profile-photo" src="./Assets/image-1.jpg" alt="Profile Photo" />
+            </div>
+            <!-- Dropdown Menu -->
+            <div id="profile-dropdown" class="dropdown-content">
+              <a href="#" onclick="showAdminForm()">Create Admin</a>
+              <a href="#">View Profile</a>
+              <a href="#" onclick="editProfile()">Edit Profile</a>
+              <a href="#" id="logout-button">Logout</a>
             </div>
           </div>
+          
         </div>
         <div class="hostel-main">
           <a href="#">
@@ -294,13 +307,6 @@
             required
           />
           <br />
-
-          <!-- Batch Field -->
-          <!-- <label for="batch">Batch:</label>
-                  <input type="text" id="batch" name="batch" placeholder="Enter Batch" required>
-                  <br> -->
-
-          <!-- Department Field -->
           <label for="department">Block No:</label>
           <input
             type="text"
@@ -326,9 +332,49 @@
       </div>
 
       <!-- Trigger Button -->
-      <button onclick="AddStudentHandler()">Open Add Student Form</button>
+      <!-- <button onclick="AddStudentHandler()">Open Add Student Form</button> -->
     </div>
 
+
+
+<!-- ======================Admin Form============================ -->
+<div id="form-container" class="hidden">
+  <div id="form-wrapper">
+    <div class="form-header">
+      <span class="close-button" onclick="hideAdminForm()">×</span>
+    </div>
+    <form id="admin-form">
+      <label for="admin-name">Name:</label>
+      <input type="text" id="admin-name" name="adminName" required />
+      <label for="admin-email">Email:</label>
+      <input type="email" id="admin-email" name="adminEmail" required />
+      <label for="admin-role">Role:</label>
+      <input type="text" id="admin-role" name="adminRole" value="Admin" readonly />
+      <label for="admin-photo">Profile Photo URL:</label>
+      <input type="url" id="admin-photo" name="adminPhoto" required />
+      <label for="admin-password">Password:</label>
+      <input type="password" id="admin-password" name="adminPassword" required />
+      <label for="confirm-password">Confirm Password:</label>
+      <input type="password" id="confirm-password" name="confirmPassword" required />
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</div>
+<!-- ====================Admin Form End====================== -->
+
+
+
+
+
+
+
     <script src="app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+
+   
+
+
   </body>
 </html>
