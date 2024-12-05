@@ -330,6 +330,7 @@
 @media screen and (max-width: 768px) {
     #addstudent {
         width: 700px; /* Set fixed width for larger screens */
+        height: 700px;
     }
 }
 
