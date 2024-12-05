@@ -967,8 +967,29 @@ aside.active {
   
   /* Responsive Design */
   @media (max-width: 768px) {
+
+
+    
+  /* Overlay for transparent background */
+  #form-container {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* height: 100%; */
+    background: rgba(0, 0, 0, 0.5); 
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: red; */
+  }
+
+
     #form-wrapper {
       padding: 15px;
+      width: 100%;
     }
   
     #admin-form label {
