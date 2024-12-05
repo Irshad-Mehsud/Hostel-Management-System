@@ -305,7 +305,7 @@ function showAdminForm() {
         // if (localStorage.getItem("adminProfile")) {
         //   updateProfile();
           
-    
+      
     
         // }
         updateProfile();
@@ -340,7 +340,7 @@ function logoutAdmin() {
   // Submit handler for creating admin profile
 document.getElementById("admin-form").addEventListener("submit", function (e) {
     e.preventDefault();
-    
+   
     // Check if the profile already exists in localStorage
     const savedProfile = localStorage.getItem("adminProfile");
     if (savedProfile) {
@@ -375,15 +375,18 @@ document.getElementById("admin-form").addEventListener("submit", function (e) {
   
     // Update profile immediately
     updateProfile();
-  
+    hideAdminForm();
+    
+    document.getElementById("form-container").style.display = "none";
     // Clear the form
     document.getElementById("admin-form").reset();
   
-    alert("Admin profile created successfully!");
+    
   });
 // Function to update profile from localStorage
 function updateProfile() {
   const savedProfile = localStorage.getItem("adminProfile");
+  
 
   if (savedProfile) {
     const profileData = JSON.parse(savedProfile);
