@@ -994,7 +994,7 @@ aside.active {
     padding: 20px;
     width: 100%;
     max-width: 700px;
-    height: 780px;
+    height: 820px;
     position: relative;
     font-family: Arial, sans-serif;
   }
@@ -1017,8 +1017,8 @@ aside.active {
     #admin-form button {
       font-size: 20px;
       margin-top: 10px;
+      height: 90px;
     }
-  
     .form-header .close-button {
       font-size: 20px;
     }
