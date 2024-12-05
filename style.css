@@ -356,7 +356,7 @@
     #addstudent .close-icon{
         margin-right: 20px;
         margin-top: 10px;
-        color: var(--clr-white);
+        color:var(--clr-dark);
     }
 }
 
