@@ -877,12 +877,13 @@ aside.active {
   }
   
   #form-wrapper {
-    background-color: #ffffff;
+    background:var(--clr-color-background) !important;
+    /* color: var(--clr-white); */
     border-radius: 12px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     padding: 20px;
     width: 100%;
-    max-width: 400px;
+    max-width: 650px;
     position: relative;
     font-family: Arial, sans-serif;
   }
@@ -899,16 +900,18 @@ aside.active {
   
   /* Close Button */
   .form-header .close-button {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
+    /* font-size: 24px; */
+    font-weight:500;
+    color: var(--clr-dark);
     cursor: pointer;
     background: none;
     border: none;
     line-height: 1;
     position: absolute;
-    top: -10px;
-    right: -10px;
+    top: -20px;
+    right: 5px;
+    font-size: 60px;
+    
   }
   
   .form-header .close-button:hover {
@@ -919,21 +922,26 @@ aside.active {
   #admin-form label {
     display: block;
     font-size: 14px;
-    color: #333;
+    color: var(--clr-dark);
+    /* background: var(--clr-dark); */
     margin-bottom: 5px;
     font-weight: bold;
   }
+  #admin-form{
+    margin-top: 40px;
+}
   
   /* Form Inputs */
   #admin-form input {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
+    outline: none !important;
     border-radius: 8px;
     font-size: 14px;
     box-sizing: border-box;
     transition: border-color 0.3s ease-in-out;
+    background: var(--clr-white) !important;
   }
   
   /* Focused Input */
@@ -967,15 +975,12 @@ aside.active {
   
   /* Responsive Design */
   @media (max-width: 768px) {
-
-
-    
   /* Overlay for transparent background */
   #form-container {
-    display: none; /* Hidden by default */
+    /* display: none; 
     position: fixed;
     top: 0;
-    left: 0;
+    left: 0; */
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5); 
@@ -994,13 +999,16 @@ aside.active {
     padding: 20px;
     width: 100%;
     max-width: 700px;
-    height: 820px;
+    height: 860px;
     position: relative;
     font-family: Arial, sans-serif;
   }
   
     #admin-form label {
       font-size: 18px;
+    }
+    #admin-form{
+        margin-top: 50px;
     }
   
     #admin-form input {
@@ -1020,7 +1028,9 @@ aside.active {
       height: 90px;
     }
     .form-header .close-button {
-      font-size: 20px;
+      font-size: 70px;
+      margin-right: 20px;
+     
     }
   }
   
