@@ -335,7 +335,7 @@
 @media screen and (max-width: 768px) {
     #addstudent {
         width: 700px; /* Set fixed width for larger screens */
-        height: 980px;
+        height: 1050px;
     }
     #Addstdform{
         margin-top: 50px;
