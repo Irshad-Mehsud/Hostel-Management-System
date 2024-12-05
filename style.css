@@ -994,13 +994,13 @@ aside.active {
     padding: 20px;
     width: 100%;
     max-width: 700px;
-    height: 700px;
+    height: 780px;
     position: relative;
     font-family: Arial, sans-serif;
   }
   
     #admin-form label {
-      font-size: 12px;
+      font-size: 18px;
     }
   
     #admin-form input {
@@ -1015,7 +1015,8 @@ aside.active {
       }
   
     #admin-form button {
-      font-size: 14px;
+      font-size: 20px;
+      margin-top: 10px;
     }
   
     .form-header .close-button {
