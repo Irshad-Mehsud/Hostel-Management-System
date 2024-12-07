@@ -325,68 +325,102 @@ function logoutAdmin() {
     const profileRole = document.getElementById("profile-role");
     const profilePhoto = document.getElementById("profile-photo");
   
-    profileName.textContent = 'Profile';
-    profileRole.textContent = 'Role';
+    profileName.textContent = 'No Profile';
+    profileRole.textContent = 'No Role';
     profilePhoto.src = './Assets/images.png'; // Reset to default image
   
     alert("You have logged out successfully!");
   }
-  
-  // Add event listener for logout
-  document.getElementById("logout-button").addEventListener("click", logoutAdmin);
+      //   ====================Logout Functionaity End===============
 
+    //   ====================Admin Creating and Edit Functionaity===============
 
-
-  // Submit handler for creating admin profile
+// Function to handle form submission for creating or updating the profile
 document.getElementById("admin-form").addEventListener("submit", function (e) {
-    e.preventDefault();
-   
-    // Check if the profile already exists in localStorage
-    const savedProfile = localStorage.getItem("adminProfile");
-    if (savedProfile) {
-      alert("Admin profile already exists!");
-      return; // Exit if the profile already exists
-    }
-  
-    // Get form values
-    const name = document.getElementById("admin-name").value.trim();
-    const email = document.getElementById("admin-email").value.trim();
-    const role = document.getElementById("admin-role").value.trim();
-    const photoURL = document.getElementById("admin-photo").value.trim();
-    const password = document.getElementById("admin-password").value.trim();
-    const confirmPassword = document.getElementById("confirm-password").value.trim();
-  
-    // Check if passwords match
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
-  
-    // Create admin data object
+  e.preventDefault();
+
+  // Get form values
+  const name = document.getElementById("admin-name").value.trim();
+  const email = document.getElementById("admin-email").value.trim();
+  const role = document.getElementById("admin-role").value.trim();
+  const photoURL = document.getElementById("admin-photo").value.trim();
+  const password = document.getElementById("admin-password").value.trim();
+  const confirmPassword = document.getElementById("confirm-password").value.trim();
+
+  // Check if passwords match
+  if (password !== confirmPassword) {
+    alert("Passwords do not match!");
+    return;
+  }
+
+  // Check if the profile already exists in localStorage
+  const savedProfile = localStorage.getItem("adminProfile");
+  if (!savedProfile) {
+    // Create admin data object for a new profile
     const adminData = {
       name,
       email,
       role,
       photoURL,
     };
-  
+
     // Store in localStorage
     localStorage.setItem("adminProfile", JSON.stringify(adminData));
-  
-    // Update profile immediately
-    updateProfile();
-    hideAdminForm();
-    
-    document.getElementById("form-container").style.display = "none";
-    // Clear the form
-    document.getElementById("admin-form").reset();
-  
-    
-  });
-// Function to update profile from localStorage
+    alert("Admin profile created successfully!");
+  } else {
+    // Update the existing admin profile
+    const updatedAdminData = {
+      name,
+      email,
+      role,
+      photoURL,
+    };
+
+    // Save updated profile to localStorage
+    localStorage.setItem("adminProfile", JSON.stringify(updatedAdminData));
+    alert("Admin profile updated successfully!");
+  }
+
+  // Update the profile display
+  updateProfile();
+
+  // Hide the form
+  hideAdminForm();
+
+  // Clear the form
+  document.getElementById("admin-form").reset();
+});
+
+// Function to load profile data into the form for editing
+function loadProfileForEditing() {
+  const savedProfile = localStorage.getItem("adminProfile");
+
+  if (!savedProfile) {
+    alert("No profile found to edit!");
+    return;
+  }
+
+  // Parse the saved profile
+  const adminProfile = JSON.parse(savedProfile);
+
+  // Populate the form fields with the saved data
+  document.getElementById("admin-name").value = adminProfile.name;
+  document.getElementById("admin-email").value = adminProfile.email;
+  document.getElementById("admin-role").value = adminProfile.role;
+  document.getElementById("admin-photo").value = adminProfile.photoURL;
+
+  // Display the form for editing
+  document.getElementById("form-container").style.display = "block";
+}
+
+// Function to hide the form
+function hideAdminForm() {
+  document.getElementById("form-container").style.display = "none";
+}
+
+// Function to update the profile display
 function updateProfile() {
   const savedProfile = localStorage.getItem("adminProfile");
-  
 
   if (savedProfile) {
     const profileData = JSON.parse(savedProfile);
@@ -410,9 +444,7 @@ function updateProfile() {
     profilePhoto.src = './Assets/images.png'; // Default image
   }
 }
-// =============================Logout Functionality End================  
-
-
+    //   ====================Admin Creating and Edit Functionaity End=============== 
 // Function to toggle the dropdown visibility
 function toggleDropdown() {
     const dropdown = document.getElementById('profile-dropdown');

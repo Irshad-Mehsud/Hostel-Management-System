@@ -110,7 +110,7 @@
 
           <a href="#">
             <span class="material-symbols-outlined">logout</span>
-            <h3 id="logout-button">Logout</h3>
+            <h3 onclick="logoutAdmin()">Logout</h3>
           </a>
         </div>
       </aside>
@@ -210,8 +210,8 @@
             <div id="profile-dropdown" class="dropdown-content">
               <a href="#" onclick="showAdminForm()">Create Admin</a>
               <a href="#">View Profile</a>
-              <a href="#" onclick="editProfile()">Edit Profile</a>
-              <a href="#" id="logout-button">Logout</a>
+              <a href="#" onclick="loadProfileForEditing()">Edit Profile</a>
+              <a href="#" onclick="logoutAdmin()">Logout</a>
             </div>
           </div>
           
