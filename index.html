@@ -103,7 +103,7 @@
                     <span class="material-symbols-outlined">settings</span>
                     <h3>settings</h3>
                 </a> -->
-          <a href="#" onclick="AddStudentHandler()">
+          <a href="#" onclick="AddStudentHandler()" id="add-student-option">
             <span class="material-symbols-outlined">add</span>
             <h3>Add Student</h3>
           </a>
@@ -209,7 +209,7 @@
             <!-- Dropdown Menu -->
             <div id="profile-dropdown" class="dropdown-content">
               <a href="#" onclick="showAdminForm()">Create Admin</a>
-              <a href="#">View Profile</a>
+              <a href="#" id="view-profile-btn" onclick="viewProfile()">View Profile</a>
               <a href="#" onclick="loadProfileForEditing()">Edit Profile</a>
               <a href="#" onclick="logoutAdmin()">Logout</a>
             </div>
@@ -338,6 +338,7 @@
 
 
 <!-- ======================Admin Form============================ -->
+<!-- ======================Admin Form============================ -->
 <div id="form-container" class="hidden">
   <div id="form-wrapper">
     <div class="form-header">
@@ -346,21 +347,51 @@
     <form id="admin-form">
       <label for="admin-name">Name:</label>
       <input type="text" id="admin-name" name="adminName" required />
+
       <label for="admin-email">Email:</label>
       <input type="email" id="admin-email" name="adminEmail" required />
+
       <label for="admin-role">Role:</label>
-      <input type="text" id="admin-role" name="adminRole" value="Admin" readonly />
+      <select id="admin-role" name="adminRole" required>
+        <option value="">Select Role</option>
+        <option value="Admin">Admin</option>
+        <option value="Student">Student</option>
+        <option value="Staff">Staff</option>
+      </select>
+
       <label for="admin-photo">Profile Photo URL:</label>
       <input type="url" id="admin-photo" name="adminPhoto" required />
+
       <label for="admin-password">Password:</label>
       <input type="password" id="admin-password" name="adminPassword" required />
+
       <label for="confirm-password">Confirm Password:</label>
       <input type="password" id="confirm-password" name="confirmPassword" required />
-      <button type="submit">Submit</button>
+
+      <button type="submit" id="Submitbtn">Submit</button>
     </form>
   </div>
 </div>
 <!-- ====================Admin Form End====================== -->
+
+
+<div id="container" style="display: none;">
+  <!-- Profile Card -->
+  <!-- <div class="profile-card">
+      <div class="profile-header">
+          <img id="profile-photo" class="profile-img" src="" alt="Profile Photo" />
+          <h2 id="profile-name">John Doe</h2>
+      </div>
+      <div class="profile-details">
+          <p><strong>Email:</strong> <span id="profile-email">john.doe@example.com</span></p>
+          <p><strong>Role:</strong> <span id="profile-role">Admin</span></p>
+      </div>
+  </div> -->
+</div>
+
+<!-- ====================Admin Form End====================== -->
+
+
 
 
 

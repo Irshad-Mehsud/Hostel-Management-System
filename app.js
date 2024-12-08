@@ -347,103 +347,90 @@ document.getElementById("admin-form").addEventListener("submit", function (e) {
   const password = document.getElementById("admin-password").value.trim();
   const confirmPassword = document.getElementById("confirm-password").value.trim();
 
-  // Check if passwords match
+  // Validate passwords
   if (password !== confirmPassword) {
     alert("Passwords do not match!");
     return;
   }
 
-  // Check if the profile already exists in localStorage
-  const savedProfile = localStorage.getItem("adminProfile");
-  if (!savedProfile) {
-    // Create admin data object for a new profile
-    const adminData = {
-      name,
-      email,
-      role,
-      photoURL,
-    };
+  const adminData = { name, email, role, photoURL };
 
-    // Store in localStorage
+  // Check if profile exists
+  if (localStorage.getItem("adminProfile")) {
+    localStorage.setItem("adminProfile", JSON.stringify(adminData));
+    alert("Admin profile updated successfully!");
+  } else {
     localStorage.setItem("adminProfile", JSON.stringify(adminData));
     alert("Admin profile created successfully!");
-  } else {
-    // Update the existing admin profile
-    const updatedAdminData = {
-      name,
-      email,
-      role,
-      photoURL,
-    };
-
-    // Save updated profile to localStorage
-    localStorage.setItem("adminProfile", JSON.stringify(updatedAdminData));
-    alert("Admin profile updated successfully!");
   }
 
-  // Update the profile display
   updateProfile();
-
-  // Hide the form
   hideAdminForm();
-
-  // Clear the form
   document.getElementById("admin-form").reset();
 });
 
-// Function to load profile data into the form for editing
 function loadProfileForEditing() {
   const savedProfile = localStorage.getItem("adminProfile");
-
   if (!savedProfile) {
     alert("No profile found to edit!");
     return;
   }
 
-  // Parse the saved profile
   const adminProfile = JSON.parse(savedProfile);
-
-  // Populate the form fields with the saved data
   document.getElementById("admin-name").value = adminProfile.name;
   document.getElementById("admin-email").value = adminProfile.email;
   document.getElementById("admin-role").value = adminProfile.role;
   document.getElementById("admin-photo").value = adminProfile.photoURL;
 
-  // Display the form for editing
-  document.getElementById("form-container").style.display = "block";
+  document.getElementById("form-container").style.display = "flex";
 }
 
-// Function to hide the form
 function hideAdminForm() {
   document.getElementById("form-container").style.display = "none";
 }
 
-// Function to update the profile display
 function updateProfile() {
   const savedProfile = localStorage.getItem("adminProfile");
+  const profileName = document.getElementById("profile-name");
+  const profileRole = document.getElementById("profile-role");
+  const profilePhoto = document.getElementById("profile-photo");
 
   if (savedProfile) {
     const profileData = JSON.parse(savedProfile);
-
-    // Update the profile section with the data from localStorage
-    const profileName = document.getElementById("profile-name");
-    const profileRole = document.getElementById("profile-role");
-    const profilePhoto = document.getElementById("profile-photo");
-
     profileName.textContent = profileData.name;
     profileRole.textContent = profileData.role;
-    profilePhoto.src = profileData.photoURL || './default-image.jpg';
+    profilePhoto.src = profileData.photoURL || "./Assets/images.png";
   } else {
-    // If no profile exists, ensure the profile section is empty
-    const profileName = document.getElementById("profile-name");
-    const profileRole = document.getElementById("profile-role");
-    const profilePhoto = document.getElementById("profile-photo");
-
-    profileName.textContent = 'No Profile';
-    profileRole.textContent = 'No Role';
-    profilePhoto.src = './Assets/images.png'; // Default image
+    profileName.textContent = "No Profile";
+    profileRole.textContent = "No Role";
+    profilePhoto.src = "./Assets/images.png";
   }
 }
+
+// Wait for the DOM to fully load before adding the event listener
+document.addEventListener("DOMContentLoaded", () => {
+  const roleSelect = document.getElementById("admin-role");
+  const addStudentOption = document.getElementById("add-student-option");
+  const Submitbtn = document.getElementById("Submitbtn");
+
+  // Add an event listener for the button click
+  Submitbtn.addEventListener("click", function () {
+    const selectedRole = roleSelect.value; // Get the selected role
+    if (selectedRole === "Student") {
+      addStudentOption.style.display = "none"; // Hide if role is Student
+    } else {
+      addStudentOption.style.display = "flex"; // Show otherwise
+    }
+  });
+
+  // Initial check in case a default value is set
+  if (roleSelect.value === "Student") {
+    addStudentOption.style.display = "none";
+  }
+});
+
+
+
     //   ====================Admin Creating and Edit Functionaity End=============== 
 // Function to toggle the dropdown visibility
 function toggleDropdown() {
@@ -456,4 +443,59 @@ function toggleDropdown() {
 
 
 
+// ==========================view profile ==========================
+document.addEventListener("DOMContentLoaded", function() {
+  // Function to view the profile
+  function viewProfile() {
+    const savedProfile = localStorage.getItem("adminProfile");
+    const view_profile = document.getElementById("container");
 
+    if (savedProfile) {
+      const profileData = JSON.parse(savedProfile);
+      view_profile.style.display = "flex"; // Make sure the profile card is visible
+      view_profile.innerHTML = `
+        <div class="profile-card">
+          <button class="close-btn" id="close-button">×</button>
+          <div class="profile-header">
+            <img id="profile-photo" class="profile-img" 
+                src="${profileData.photoURL || './Assets/images.png'}" 
+                alt="Profile Photo" />
+            <h2 id="profile-name">${profileData.name || 'No Name'}</h2>
+          </div>
+          <div class="profile-details">
+            <p><strong>Email:</strong> <span id="profile-email">${profileData.email || 'No Email'}</span></p>
+            <p><strong>Role:</strong> <span id="profile-role">${profileData.role || 'No Role'}</span></p>
+          </div>
+        </div>
+      `;
+       function closeProfileCard() {
+    const view_profile = document.getElementById("container");
+   
+    if (view_profile) {
+      view_profile.style.display = "none"; // Hide the profile container
+    } else {
+      console.error("Container element not found.");
+    }
+  }
+      // Attach event listener to the close button after content is inserted
+      const closeButton = document.querySelector("#close-button");
+      if (closeButton) {
+        closeButton.addEventListener("click", closeProfileCard);
+      }
+
+    } else {
+      view_profile.style.display = "flex"; // Ensure the profile container is visible
+      view_profile.innerHTML = `<p>No Profile Data Found</p>`;
+    }
+  }
+
+  // Function to close the profile card
+ 
+
+  // Call viewProfile when needed (you can hook it up to a button or event)
+  document.getElementById("view-profile-btn").addEventListener("click", viewProfile);
+  document.getElementById("close-button").addEventListener("click", closeProfileCard());
+
+});
+
+// ============================view profile end======================================
