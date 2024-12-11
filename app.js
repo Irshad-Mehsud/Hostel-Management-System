@@ -245,9 +245,6 @@ function showAdminForm(){
 window.onload = function () {
  hideAdminForm();
  addCards();
- if () {
-  
- }
 };
 //================Form Show and Hide Functionaity End================ 
 
