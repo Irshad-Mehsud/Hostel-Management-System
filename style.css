@@ -1106,6 +1106,9 @@ label[for="admin-role"] {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
   }
+  .dropdown-content.show {
+    display: block; /* Show dropdown when toggled */
+  }
   
   #profile-dropdown a {
     color:var(--clr-dark);

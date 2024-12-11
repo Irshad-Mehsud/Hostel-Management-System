@@ -339,12 +339,12 @@
 
 <!-- ======================Admin Form============================ -->
 <!-- ======================Admin Form============================ -->
-<div id="form-container" class="hidden">
+<div id="form-container">
   <div id="form-wrapper">
     <div class="form-header">
       <span class="close-button" onclick="hideAdminForm()">×</span>
     </div>
-    <form id="admin-form">
+    <form id="admin-form"  onsubmit="return validateAndSubmitForm()>
       <label for="admin-name">Name:</label>
       <input type="text" id="admin-name" name="adminName" required />
 
@@ -399,10 +399,12 @@
 
 
 
+ 
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.20.0/firebase-auth.js"></script>
+
     <script src="app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
 
    
 
