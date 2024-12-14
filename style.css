@@ -1014,7 +1014,7 @@ label[for="admin-role"] {
     /* background-color: red !important; */
 }
 
-#addstudent input {
+#Addstdform input {
     display: flex;
     width: 100%;
     height: 40px;
@@ -1029,7 +1029,7 @@ label[for="admin-role"] {
 }
 
 
-#addstudent button {
+#Addstdform button {
     padding: 10px 20px;
     background-color: var(--clr-primary);
     color:var(--clr-dark);
@@ -1042,7 +1042,7 @@ label[for="admin-role"] {
     font-weight: 600;
 }
 
-#addstudent button:hover {
+#Addstdform button:hover {
     background-color:var(--clr-primary);
 }
 #addstudent .close-icon {
@@ -1238,7 +1238,95 @@ label[for="admin-role"] {
     }
 }
 
+  /* ==============================Alert box styling start======================== */
 
+.alert-box {
+    display: none;
+    font-family: Arial, sans-serif;
+    position: fixed;
+    top: 15px;
+    right: 10px;
+    background: var(--clr-white);
+    border: 2px solid var(--clr-primary);
+    border-radius: 10px;
+    padding: 15px 20px;
+    box-shadow: 0 4px 6px var(--clr-primary);
+    text-align: left;
+    width: 350px;
+    animation: fadeInSlide 0.5s ease forwards;
+    pointer-events: none; /* Disable interaction during animation */
+  }
+  
+  .alert-box h2 {
+    margin: 0;
+    font-size: 16px;
+    color:var(--clr-primary);
+  }
+  
+  .alert-box p {
+    margin: 5px 0;
+    font-size: 14px;
+    color:var(--clr-dark);
+  }
+  
+  .progress-bar-container {
+    margin-top: 10px;
+    width: 100%;
+    height: 5px;
+    background: var(--clr-white);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  
+  .progress-bar {
+    height: 100%;
+    width: 0;
+    background:var(--clr-primary);
+    transition: width 2s linear; /* Animation duration */
+  }
+  
+  @keyframes fadeInSlide {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  /* Media query for screens 768px and smaller */
+  @media (max-width: 768px) {
+    .alert-box {
+      width: 90%; /* Adjust width to 90% of the screen */
+      top: 10px; /* Reduce top margin */
+      right: 5%; /* Center horizontally with padding */
+      padding: 10px 15px; /* Reduce padding for smaller screens */
+    }
+  
+    .alert-box h2 {
+      font-size: 14px; /* Slightly smaller font size */
+    }
+  
+    .alert-box p {
+      font-size: 12px; /* Slightly smaller font size */
+    }
+  
+    .progress-bar-container {
+      height: 4px; /* Slightly smaller progress bar */
+    }
+  }
+  /* ==============================Alert box styling end======================== */
 
 
 

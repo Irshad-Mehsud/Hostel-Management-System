@@ -242,10 +242,7 @@ function showAdminForm(){
   adminForm.style.display="flex";
 }
 // Check visibility on window load
-window.onload = function () {
- hideAdminForm();
- addCards();
-};
+
 //================Form Show and Hide Functionaity End================ 
 
 //==============To Show and Hide the Dropdown==================
@@ -270,8 +267,7 @@ window.addEventListener("click", function (event) {
   }
 });
 //==============To Show and Hide the Dropdown  End==================
-
-
+// Firebase configuration
 // Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDBhFbglhN1Qoig5tlkWhhD0zrF6MNgPVE",
@@ -286,16 +282,13 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-
-// Reference Firebase Realtime Database for admin form data
 const adminFormDB = firebase.database().ref("adminForm");
-
 
 // Listen for form submission
 document.getElementById("admin-form").addEventListener("submit", submitAdminForm);
 
 function submitAdminForm(e) {
-  e.preventDefault();  // Prevent form from refreshing the page
+  e.preventDefault(); // Prevent form from refreshing the page
 
   // Get form values
   const adminName = document.getElementById("admin-name").value;
@@ -316,18 +309,15 @@ function submitAdminForm(e) {
     name: adminName,
     email: adminEmail,
     role: adminRole,
-    photo: adminPhoto || './Assets/images.png',  // Default photo if none provided
-    password: adminPassword  // In production, consider hashing the password
+    photo: adminPhoto || './Assets/images.png', // Default photo if none provided
+    password: adminPassword, // In production, consider hashing the password
   };
-
-  // Check if the role is "Student" and hide "Add Student" option if true
-  hideAddStudentOption(adminRole);
 
   // Save data to Firebase Realtime Database
   adminFormDB.push(adminData)
     .then(() => {
-      console.log("Data successfully saved to Firebase.");
-      alert("Admin added successfully!");
+      // Show success alert with the role
+      showAlert(adminData);
 
       // Optionally, update the profile section on the UI with the newly added data
       updateProfile(adminData);
@@ -356,39 +346,256 @@ function hideAddStudentOption(role) {
   }
 }
 
-
+// Update the profile section with data from Firebase
 function updateProfile(data) {
-  // Check if the admin data exists, otherwise set default values
   const profileName = document.getElementById("profile-name");
   const profileRole = document.getElementById("profile-role");
   const profilePhoto = document.getElementById("profile-photo");
 
   if (data) {
-    // Update the profile section with the provided admin data
     profileName.textContent = data.name || "No Profile";
     profileRole.textContent = data.role || "No Role";
-    profilePhoto.src = data.photo || "./Assets/images.png"; // Use the provided photo or default if none
+    profilePhoto.src = data.photo || "./Assets/images.png";
   } else {
-    // If no data exists, set the default values
     profileName.textContent = "No Profile";
     profileRole.textContent = "No Role";
-    profilePhoto.src = "./Assets/images.png"; // Default profile image
+    profilePhoto.src = "./Assets/images.png";
+  }
+}
+
+// Load profile data from Firebase on page load (or reload)
+function loadProfileOnInit() {
+  // Fetch data from Firebase
+  adminFormDB.once("value")
+    .then(snapshot => {
+      const profileData = snapshot.val();
+
+      if (profileData) {
+        // Extract and sort profiles by 'createdAt'
+        const profiles = Object.entries(profileData)
+          .map(([key, value]) => ({ key, ...value }))
+          .filter(profile => profile.createdAt) // Ensure 'createdAt' exists
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Descending by 'createdAt'
+
+        if (profiles.length > 0) {
+          const latestProfile = profiles[0];
+          updateProfile(latestProfile); // Update UI with the latest profile
+        } else {
+          console.log("No profiles found with valid 'createdAt'.");
+          updateDefaultProfile();
+        }
+      } else {
+        console.log("No data available in Firebase.");
+        updateDefaultProfile();
+      }
+    })
+    .catch(error => {
+      console.error("Error loading data from Firebase:", error);
+    });
+}
+
+// Default profile updater
+// function updateDefaultProfile() {
+//   updateProfile({
+//     name: "No Profile",
+//     role: "No Role",
+//     photo: "./Assets/images.png",
+//   });
+// }
+
+
+// Hide the admin form after successful submission
+function hideAdminForm() {
+  const adminForm = document.getElementById("form-container");
+  adminForm.style.display = "none";
+}
+
+// Initialize the profile data on page load
+document.addEventListener("DOMContentLoaded", loadProfileOnInit);
+
+
+// Function to hide the Add Student option based on role
+function hideAddStudentOption(role) {
+  const addStudentOption = document.getElementById("add-student-option");
+
+  if (role === "Student") {
+    // Hide the Add Student option if role is "Student"
+    addStudentOption.style.display = "none";
+  } else {
+    // Ensure the Add Student option is visible for other roles
+    addStudentOption.style.display = "flex";
   }
 }
 
 
 
+
+function hideAddStudentOption(role) {
+  const addStudentOption = document.getElementById("add-student-option");
+
+  if (role === "Student") {
+    // Hide the Add Student option if role is "Student"
+    addStudentOption.style.display = "none";
+  } else {
+    // Ensure the Add Student option is visible for other roles
+    addStudentOption.style.display = "flex";
+  }
+}
+
+// ============================Adding student to tabble======================
+// Initialize Firebase
+// firebase.initializeApp(firebaseConfig);
+// const firebaseConfig = {
+//   apiKey: "AIzaSyDBhFbglhN1Qoig5tlkWhhD0zrF6MNgPVE",
+//   authDomain: "hostel-management-system-4725f.firebaseapp.com",
+//   databaseURL:
+//     "https://hostel-management-system-4725f-default-rtdb.firebaseio.com",
+//   projectId: "hostel-management-system-4725f",
+//   storageBucket: "hostel-management-system-4725f.appspot.com",
+//   messagingSenderId: "172390574707",
+//   appId: "1:172390574707:web:000114bf8d124e0cf09806",
+//   measurementId: "G-41P2WQQ19F",
+// };
+
+// Initialize Firebase only if not already initialized
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+// Reference to Firebase Realtime Database
+const studentFormDB = firebase.database().ref("StudentForm");
+
+// Handle Form Submission
+document
+  .getElementById("Addstdform")
+  .addEventListener("submit", function (e) {
+    e.preventDefault(); // Prevent the form from refreshing the page
+    CloseAddStudentForm()
+    // Collect student data from the form
+    const name = document.getElementById("name").value.trim();
+    const fatherName = document
+      .getElementById("father_name")
+      .value.trim();
+    const cnic = document.getElementById("cnic").value.trim();
+    const address = document.getElementById("address").value.trim();
+    const blockNo = document.getElementById("block_no").value.trim();
+    const roomNo = document.getElementById("room_no").value.trim();
+    const photoUrl = document.getElementById("photo_url").value.trim();
+
+    // Validate required fields
+    if (
+      !name ||
+      !fatherName ||
+      !cnic ||
+      !address ||
+      !blockNo ||
+      !roomNo ||
+      !photoUrl
+    ) {
+      alert("Please fill in all fields, including the photo URL.");
+      return;
+    }
+
+    // Prepare the student data object
+    const studentData = {
+      name,
+      fatherName,
+      cnic,
+      address,
+      blockNo,
+      roomNo,
+      photo: photoUrl,
+    };
+
+    // Log the data to console for debugging
+    console.log("Student Data to Push:", studentData);
+
+    // Push student data to Firebase
+    studentFormDB
+      .push(studentData)
+      .then(() => {
+        alert("Student added successfully!");
+        document.getElementById("Addstdform").reset(); // Reset the form after successful submission
+        fetchStudents(); // Refresh the table to show the new data
+      })
+      .catch((error) => {
+        console.error("Error sending data to Firebase:", error);
+        // alert("Failed to send data. Check console for details.");
+      });
+  });
+
+
+
+window.onload = function () {
+  // fetchStudents();
+  loadProfileOnInit();
+ hideAdminForm();
+ addCards();
+};
+// ============================Adding student to tabble end======================
+
+
+// function updateProfile(data) {
+//   const profileName = document.getElementById("profile-name");
+//   const profileRole = document.getElementById("profile-role");
+//   const profilePhoto = document.getElementById("profile-photo");
+
+//   if (data) {
+//     profileName.textContent = data.name || "No Profile";
+//     profileRole.textContent = data.role || "No Role";
+//     profilePhoto.src = data.photo || "./Assets/images.png";
+//   } else {
+//     profileName.textContent = "No Profile";
+//     profileRole.textContent = "No Role";
+//     profilePhoto.src = "./Assets/images.png";
+//   }
+// }
+
 function hideAdminForm() {
-  // Hide the form container after successful submission
   const adminForm = document.getElementById("form-container");
   adminForm.style.display = "none";
+  
+}
+
+
+// Function to show the alert box and start the progress bar
+function showAlert(adminData) {
+  const alertBox = document.getElementById("alertBox");
+  const progressBar = document.getElementById("progressBar");
+  const roleSpan = document.getElementById("Role-spn");
+
+  // Set role-specific message
+  if (adminData.role === "Admin") {
+    roleSpan.textContent = "Admin Created";
+  } else if (adminData.role === "Student") {
+    roleSpan.textContent = "Student Registered";
+  } else {
+    roleSpan.textContent = "User Created";
+  }
+
+  // Display the alert box
+  alertBox.style.display = "block";
+
+  // Start filling the progress bar
+  setTimeout(() => {
+    progressBar.style.width = "100%";
+  }, 100); // Slight delay for smoother animation
+
+  // Automatically hide the alert after the progress bar animation completes
+  setTimeout(() => {
+    alertBox.style.animation = "fadeOut 0.5s ease forwards";
+    setTimeout(() => {
+      alertBox.style.display = "none";
+    }, 500); // Matches fadeOut duration
+  }, 3000); // Matches progress bar duration
+  hideAddStudentOption(adminData.role)
 }
 
 
 
 
-// Example Functions for Menu Actions
 
+// ===================Alert box js end==========================
 
 
 

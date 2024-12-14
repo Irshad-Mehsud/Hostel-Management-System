@@ -8,6 +8,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon"
     />
+    <link rel="stylesheet" href="alertbox.css">
     <title>Document</title>
 
 
@@ -47,7 +48,7 @@
             <h3>Rooms</h3>
           </a>
 
-          <a href="#" id="residents">
+          <a href="./Allstudents.html" id="residents">
             <span class="icon">👥</span>
             <h3>Residents</h3>
           </a>
@@ -199,12 +200,12 @@
           </div>
           <div class="profile" onclick="toggleDropdown()">
             <div class="info" id="profile-info">
-              <p><b id="profile-name">Irshad Ahmad</b></p>
-              <p id="profile-role">Admin</p>
+              <p><b id="profile-name">No Profile</b></p>
+              <p id="profile-role">No Role</p>
               <small class="text-muted"></small>
             </div>
             <div class="profile-photo">
-              <img id="profile-photo" src="./Assets/image-1.jpg" alt="Profile Photo" />
+              <img id="profile-photo" src="./Assets/images.png" alt="Profile Photo" />
             </div>
             <!-- Dropdown Menu -->
             <div id="profile-dropdown" class="dropdown-content">
@@ -255,79 +256,32 @@
         <span class="close-icon" onclick="CloseAddStudentForm()">×</span>
 
         <form id="Addstdform">
-          <!-- Name Field -->
-          <label for="name">Name:</label>
+          <label for="name">Student Name:</label>
+          <input type="text" id="name" required /><br /><br />
+    
+          <label for="father_name">Father's Name:</label>
+          <input type="text" id="father_name" required /><br /><br />
+    
+          <label for="cnic">CNIC:</label>
+          <input type="text" id="cnic" required /><br /><br />
+    
+          <label for="address">Address:</label>
+          <input type="text" id="address" required /><br /><br />
+    
+          <label for="block_no">Block No:</label>
+          <input type="text" id="block_no" required /><br /><br />
+    
+          <label for="room_no">Room No:</label>
+          <input type="text" id="room_no" required /><br /><br />
+    
+          <label for="photo_url">Photo URL:</label>
           <input
-            type="text"
-            id="name"
-            name="name"
-            placeholder="Enter Name"
-            required
-          />
-          <br />
-
-          <!-- Father Name Field -->
-          <label for="father_name">Father Name:</label>
-          <input
-            type="text"
-            id="father_name"
-            name="father_name"
-            placeholder="Enter Father's Name"
-            required
-          />
-          <br />
-
-          <!-- Image Source Field -->
-          <label for="image_src">Image Source:</label>
-          <input
-            type="text"
-            id="image_src"
-            name="image_src"
-            placeholder="Enter Image URL"
-            required
-          />
-          <br />
-
-          <label for="image_src">CNIC Number:</label>
-          <input
-            type="text"
-            id="image_src"
-            name="image_src"
-            placeholder="Enter Image URL"
-            required
-          />
-          <br />
-
-          <label for="image_src">Address:</label>
-          <input
-            type="text"
-            id="image_src"
-            name="image_src"
-            placeholder="Enter Image URL"
-            required
-          />
-          <br />
-          <label for="department">Block No:</label>
-          <input
-            type="text"
-            id="department"
-            name="bocknumber"
-            placeholder="Enter Block Number"
-            required
-          />
-          <br />
-          <label for="department">Room No:</label>
-          <input
-            type="text"
-            id="department"
-            name="roomnumber"
-            placeholder="Enter Room Number"
-            required
-          />
-          <br />
-
-          <!-- Submit Button -->
-          <button type="submit">Submit</button>
+            type="url"
+            id="photo_url"
+            placeholder="https://example.com/photo.jpg"
+          /><br /><br />
+    
+          <button type="submit" onclick="addStudent()">Submit</button>
         </form>
       </div>
 
@@ -368,7 +322,7 @@
       <label for="confirm-password">Confirm Password:</label>
       <input type="password" id="confirm-password" name="confirmPassword" required />
 
-      <button type="submit" id="Submitbtn">Submit</button>
+      <button type="submit" id="Submitbtn" onclick="setTimeout(showAlert, 1500)">Submit</button>
     </form>
   </div>
 </div>
@@ -390,8 +344,15 @@
 </div>
 
 <!-- ====================Admin Form End====================== -->
-
-
+<!-- =====================Alert Box============================ -->
+<div class="alert-box" id="alertBox">
+  <h2><span id="Role-spn"></span> Successfully!</h2>
+  <p>The admin account has been created and is ready for use.</p>
+  <div class="progress-bar-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+</div>
+<!-- =====================Alert Box============================ -->
 
 
 
@@ -400,11 +361,11 @@
 
 
  
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.20.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
 
     <script src="app.js"></script>
+    <script src="alertbox.js"></script>
 
    
 
