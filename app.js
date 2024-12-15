@@ -147,8 +147,8 @@ function showBothBlocks() {
                     <h2>Rooms 1-3</h2>
                     <div class="roomsdiv">
                         <button id="room1" onclick="Roomhandler()">Room 1</button>
-                        <button>Room 2</button>
-                        <button>Room 3</button>
+                        <button onclick="Roomhandler()">Room 2</button>
+                        <button onclick="Roomhandler()">Room 3</button>
                     </div>
                 </div>
 
@@ -156,9 +156,9 @@ function showBothBlocks() {
                 <div class="sub-card">
                     <h2>Rooms 4-6</h2>
                     <div class="roomsdiv">
-                        <button>Room 4</button>
-                        <button>Room 5</button>
-                        <button>Room 6</button>
+                        <button onclick="Roomhandler()">Room 4</button>
+                        <button onclick="Roomhandler()">Room 5</button>
+                        <button onclick="Roomhandler()">Room 6</button>
                     </div>
                 </div>
             </div>
@@ -176,9 +176,9 @@ function showBothBlocks() {
                 <div class="sub-card">
                     <h2>Rooms 1-3</h2>
                     <div class="roomsdiv">
-                        <button>Room 1</button>
-                        <button>Room 2</button>
-                        <button>Room 3</button>
+                        <button onclick="Roomhandler()">Room 1</button>
+                        <button onclick="Roomhandler()">Room 2</button>
+                        <button onclick="Roomhandler()">Room 3</button>
                     </div>
                 </div>
 
@@ -186,9 +186,9 @@ function showBothBlocks() {
                 <div class="sub-card">
                     <h2>Rooms 4-6</h2>
                     <div class="roomsdiv">
-                        <button>Room 4</button>
-                        <button>Room 5</button>
-                        <button>Room 6</button>
+                        <button onclick="Roomhandler()">Room 4</button>
+                        <button onclick="Roomhandler()">Room 5</button>
+                        <button onclick="Roomhandler()">Room 6</button>
                     </div>
                 </div>
             </div>
@@ -205,37 +205,37 @@ function showBothBlocks() {
 // =====================Admin Form Js==============
 //=============11/12/2024=========================
 //================Form Show and Hide Functionaity================ 
-function validateAndSubmitForm() {
-  // Get form fields
-  const name = document.getElementById("admin-name").value.trim();
-  const email = document.getElementById("admin-email").value.trim();
-  const role = document.getElementById("admin-role").value.trim();
-  const photo = document.getElementById("admin-photo").value.trim();
-  const password = document.getElementById("admin-password").value.trim();
-  const confirmPassword = document.getElementById("confirm-password").value.trim();
+// function validateAndSubmitForm() {
+//   // Get form fields
+//   const name = document.getElementById("admin-name").value.trim();
+//   const email = document.getElementById("admin-email").value.trim();
+//   const role = document.getElementById("admin-role").value.trim();
+//   const photo = document.getElementById("admin-photo").value.trim();
+//   const password = document.getElementById("admin-password").value.trim();
+//   const confirmPassword = document.getElementById("confirm-password").value.trim();
 
-  // Check if all fields are filled
-  if (!name || !email || !role || !photo || !password || !confirmPassword) {
-    alert("Please fill out all fields.");
-    return false; // Prevent form submission
-  }
+//   // Check if all fields are filled
+//   if (!name || !email || !role || !photo || !password || !confirmPassword) {
+//     alert("Please fill out all fields.");
+//     return false; // Prevent form submission
+//   }
 
-  // Check if passwords match
-  if (password !== confirmPassword) {
-    alert("Passwords do not match!");
-    return false; // Prevent form submission
-  }
+//   // Check if passwords match
+//   if (password !== confirmPassword) {
+//     alert("Passwords do not match!");
+//     return false; // Prevent form submission
+//   }
 
-  // If validation passes
-  alert("Form submitted successfully!");
-  hideAdminForm(); // Hide the form
-  return true; // Allow form submission
-}
+//   // If validation passes
+//   alert("Form submitted successfully!");
+//   hideAdminForm(); // Hide the form
+//   return true; // Allow form submission
+// }
 
-function hideAdminForm() {
-  const adminForm = document.getElementById("form-container");
-  adminForm.style.display = "none";
-}
+// function hideAdminForm() {
+//   const adminForm = document.getElementById("form-container");
+//   adminForm.style.display = "none";
+// }
 
 function showAdminForm(){
   let adminForm=document.getElementById("form-container");
@@ -269,6 +269,7 @@ window.addEventListener("click", function (event) {
 //==============To Show and Hide the Dropdown  End==================
 // Firebase configuration
 // Firebase configuration
+// Firebase Configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDBhFbglhN1Qoig5tlkWhhD0zrF6MNgPVE",
   authDomain: "hostel-management-system-4725f.firebaseapp.com",
@@ -280,17 +281,23 @@ const firebaseConfig = {
   measurementId: "G-41P2WQQ19F"
 };
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+// Initialize Firebase only if not already initialized
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+// References to Firebase Database
 const adminFormDB = firebase.database().ref("adminForm");
+const studentFormDB = firebase.database().ref("StudentForm");
 
-// Listen for form submission
-document.getElementById("admin-form").addEventListener("submit", submitAdminForm);
+/**
+ * Admin Form Functionality
+ */
+// Handle Admin Form Submission
+document.getElementById("admin-form").addEventListener("submit", function submitAdminForm(e) {
+  e.preventDefault(); // Prevent form refresh
 
-function submitAdminForm(e) {
-  e.preventDefault(); // Prevent form from refreshing the page
-
-  // Get form values
+  // Get Admin Form Values
   const adminName = document.getElementById("admin-name").value;
   const adminEmail = document.getElementById("admin-email").value;
   const adminRole = document.getElementById("admin-role").value;
@@ -304,232 +311,163 @@ function submitAdminForm(e) {
     return;
   }
 
-  // Prepare the data object
+  // Prepare Admin Data
   const adminData = {
     name: adminName,
     email: adminEmail,
     role: adminRole,
-    photo: adminPhoto || './Assets/images.png', // Default photo if none provided
-    password: adminPassword, // In production, consider hashing the password
+    photo: adminPhoto || './Assets/images.png', // Default photo
+    password: adminPassword // Consider hashing in production
   };
 
-  // Save data to Firebase Realtime Database
-  adminFormDB.push(adminData)
-    .then(() => {
-      // Show success alert with the role
-      showAlert(adminData);
-
-      // Optionally, update the profile section on the UI with the newly added data
-      updateProfile(adminData);
-
-      // Hide the form (optional)
-      hideAdminForm();
-    })
-    .catch((error) => {
-      console.error("Error saving data to Firebase:", error);
-      alert("An error occurred. Please try again.");
-    });
-
-  // Reset the form
-  document.getElementById("admin-form").reset();
-}
-
-function hideAddStudentOption(role) {
-  const addStudentOption = document.getElementById("add-student-option");
-
-  if (role === "Student") {
-    // Hide the Add Student option if role is "Student"
-    addStudentOption.style.display = "none";
-  } else {
-    // Ensure the Add Student option is visible for other roles
-    addStudentOption.style.display = "flex";
-  }
-}
-
-// Update the profile section with data from Firebase
-function updateProfile(data) {
-  const profileName = document.getElementById("profile-name");
-  const profileRole = document.getElementById("profile-role");
-  const profilePhoto = document.getElementById("profile-photo");
-
-  if (data) {
-    profileName.textContent = data.name || "No Profile";
-    profileRole.textContent = data.role || "No Role";
-    profilePhoto.src = data.photo || "./Assets/images.png";
-  } else {
-    profileName.textContent = "No Profile";
-    profileRole.textContent = "No Role";
-    profilePhoto.src = "./Assets/images.png";
-  }
-}
-
-// Load profile data from Firebase on page load (or reload)
-function loadProfileOnInit() {
-  // Fetch data from Firebase
-  adminFormDB.once("value")
-    .then(snapshot => {
-      const profileData = snapshot.val();
-
-      if (profileData) {
-        // Extract and sort profiles by 'createdAt'
-        const profiles = Object.entries(profileData)
-          .map(([key, value]) => ({ key, ...value }))
-          .filter(profile => profile.createdAt) // Ensure 'createdAt' exists
-          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Descending by 'createdAt'
-
-        if (profiles.length > 0) {
-          const latestProfile = profiles[0];
-          updateProfile(latestProfile); // Update UI with the latest profile
-        } else {
-          console.log("No profiles found with valid 'createdAt'.");
-          updateDefaultProfile();
-        }
-      } else {
-        console.log("No data available in Firebase.");
-        updateDefaultProfile();
-      }
-    })
-    .catch(error => {
-      console.error("Error loading data from Firebase:", error);
-    });
-}
-
-// Default profile updater
-// function updateDefaultProfile() {
-//   updateProfile({
-//     name: "No Profile",
-//     role: "No Role",
-//     photo: "./Assets/images.png",
-//   });
-// }
-
-
-// Hide the admin form after successful submission
-function hideAdminForm() {
-  const adminForm = document.getElementById("form-container");
-  adminForm.style.display = "none";
-}
-
-// Initialize the profile data on page load
-document.addEventListener("DOMContentLoaded", loadProfileOnInit);
-
-
-// Function to hide the Add Student option based on role
-function hideAddStudentOption(role) {
-  const addStudentOption = document.getElementById("add-student-option");
-
-  if (role === "Student") {
-    // Hide the Add Student option if role is "Student"
-    addStudentOption.style.display = "none";
-  } else {
-    // Ensure the Add Student option is visible for other roles
-    addStudentOption.style.display = "flex";
-  }
-}
-
-
-
-
-function hideAddStudentOption(role) {
-  const addStudentOption = document.getElementById("add-student-option");
-
-  if (role === "Student") {
-    // Hide the Add Student option if role is "Student"
-    addStudentOption.style.display = "none";
-  } else {
-    // Ensure the Add Student option is visible for other roles
-    addStudentOption.style.display = "flex";
-  }
-}
-
-// ============================Adding student to tabble======================
-// Initialize Firebase
-// firebase.initializeApp(firebaseConfig);
-// const firebaseConfig = {
-//   apiKey: "AIzaSyDBhFbglhN1Qoig5tlkWhhD0zrF6MNgPVE",
-//   authDomain: "hostel-management-system-4725f.firebaseapp.com",
-//   databaseURL:
-//     "https://hostel-management-system-4725f-default-rtdb.firebaseio.com",
-//   projectId: "hostel-management-system-4725f",
-//   storageBucket: "hostel-management-system-4725f.appspot.com",
-//   messagingSenderId: "172390574707",
-//   appId: "1:172390574707:web:000114bf8d124e0cf09806",
-//   measurementId: "G-41P2WQQ19F",
-// };
-
-// Initialize Firebase only if not already initialized
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
-
-// Reference to Firebase Realtime Database
-const studentFormDB = firebase.database().ref("StudentForm");
-
-// Handle Form Submission
-document
-  .getElementById("Addstdform")
-  .addEventListener("submit", function (e) {
-    e.preventDefault(); // Prevent the form from refreshing the page
-    CloseAddStudentForm()
-    // Collect student data from the form
-    const name = document.getElementById("name").value.trim();
-    const fatherName = document
-      .getElementById("father_name")
-      .value.trim();
-    const cnic = document.getElementById("cnic").value.trim();
-    const address = document.getElementById("address").value.trim();
-    const blockNo = document.getElementById("block_no").value.trim();
-    const roomNo = document.getElementById("room_no").value.trim();
-    const photoUrl = document.getElementById("photo_url").value.trim();
-
-    // Validate required fields
-    if (
-      !name ||
-      !fatherName ||
-      !cnic ||
-      !address ||
-      !blockNo ||
-      !roomNo ||
-      !photoUrl
-    ) {
-      alert("Please fill in all fields, including the photo URL.");
-      return;
-    }
-
-    // Prepare the student data object
-    const studentData = {
-      name,
-      fatherName,
-      cnic,
-      address,
-      blockNo,
-      roomNo,
-      photo: photoUrl,
-    };
-
-    // Log the data to console for debugging
-    console.log("Student Data to Push:", studentData);
-
-    // Push student data to Firebase
-    studentFormDB
-      .push(studentData)
-      .then(() => {
-        alert("Student added successfully!");
-        document.getElementById("Addstdform").reset(); // Reset the form after successful submission
-        fetchStudents(); // Refresh the table to show the new data
-      })
-      .catch((error) => {
-        console.error("Error sending data to Firebase:", error);
-        // alert("Failed to send data. Check console for details.");
-      });
+  // Save Admin Data to Firebase
+  adminFormDB.push(adminData).then(() => {
+    alert(`${adminData.role} added successfully!`);
+    updateProfile(adminData);
+    hideAdminForm();
+    document.getElementById("admin-form").reset(); // Reset form
+  }).catch(error => {
+    console.error("Error saving admin data:", error);
+    alert("Failed to add admin. Try again.");
   });
+});
+
+// Update Profile Section
+function updateProfile(data) {
+  document.getElementById("profile-name").textContent = data.name || "No Profile";
+  document.getElementById("profile-role").textContent = data.role || "No Role";
+  document.getElementById("profile-photo").src = data.photo || "./Assets/images.png";
+}
+
+// Hide Admin Form
+function hideAdminForm() {
+  document.getElementById("form-container").style.display = "none";
+}
+
+// Load Admin Profile on Init
+document.addEventListener("DOMContentLoaded", function loadAdminProfile() {
+  adminFormDB.once("value").then(snapshot => {
+    const data = snapshot.val();
+    if (data) {
+      const latestAdmin = Object.values(data).pop(); // Get the most recent admin
+      updateProfile(latestAdmin);
+    } else {
+      console.log("No admin profiles found.");
+    }
+  }).catch(error => {
+    console.error("Error loading admin profile:", error);
+  });
+});
+
+/**
+ * Student Form Functionality
+ */
+// Handle Student Form Submission
+document.getElementById("Addstdform").addEventListener("submit", function (e) {
+  e.preventDefault(); // Prevent page reload
+
+  // Get Student Form Values
+  const name = document.getElementById("name").value.trim();
+  const fatherName = document.getElementById("father_name").value.trim();
+  const cnic = document.getElementById("cnic").value.trim();
+  const address = document.getElementById("address").value.trim();
+  const blockNo = document.getElementById("block_no").value.trim();
+  const roomNo = document.getElementById("room_no").value.trim();
+  const photoUrl = document.getElementById("photo_url").value.trim();
+
+  // Validate Required Fields
+  if (!name || !fatherName || !cnic || !address || !blockNo || !roomNo || !photoUrl) {
+    alert("Please fill all fields.");
+    return;
+  }
+
+  // Check Room Capacity
+  checkRoomCapacity(blockNo, roomNo).then(isRoomFull => {
+    if (isRoomFull) {
+      alert(`Room ${roomNo} in Block ${blockNo} is full! No more than 4 students can be added.`);
+    } else {
+      // Prepare Student Data
+      const studentData = { name, fatherName, cnic, address, blockNo, roomNo, photo: photoUrl };
+
+      // Save Student Data to Firebase
+      studentFormDB.push(studentData).then(() => {
+        alert("Student added successfully!");
+        document.getElementById("Addstdform").reset(); // Reset form
+        fetchStudents(roomNo); // Refresh students table
+      }).catch(error => {
+        console.error("Error saving student data:", error);
+        alert("Failed to add student. Try again.");
+      });
+    }
+  });
+});
+
+// Check Room Capacity
+async function checkRoomCapacity(blockNo, roomNo) {
+  const snapshot = await studentFormDB.get();
+  const students = snapshot.val();
+  let studentCount = 0;
+
+  if (students) {
+    Object.values(students).forEach(student => {
+      if (student.blockNo == blockNo && student.roomNo == roomNo) {
+        studentCount++;
+      }
+    });
+  }
+
+  return studentCount >= 4; // True if room is full
+}
+
+// Fetch and Display Students
+function fetchStudents(roomNo) {
+  const tableBody = document.getElementById("studentTableBody");
+  tableBody.innerHTML = `        
+     <thead>
+              <th>Name</th>
+              <th>CNIC</th>
+              <th>Address</th>
+              <th>Block No</th>
+              <th>Room No</th>
+              <th>Photo</th>
+      </thead>
+      `; // Clear existing rows
+
+  studentFormDB.get().then(snapshot => {
+    const students = snapshot.val();
+    if (students) {
+      Object.values(students).forEach(student => {
+        if (student.roomNo == roomNo) {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${student.name}</td>
+            <td>${student.cnic}</td>
+            <td>${student.address}</td>
+            <td>${student.blockNo}</td>
+            <td>${student.roomNo}</td>
+            <td><img src="${student.photo}" alt="Photo" width="50"></td>
+          `;
+          tableBody.appendChild(row);
+        }
+      });
+    } else {
+      tableBody.innerHTML = `<tr><td colspan="6">No students found in this room</td></tr>`;
+    }
+  }).catch(error => {
+    console.error("Error fetching students:", error);
+  });
+}
+const roomNo = document.getElementById("room_no").value.trim();
+
+// Initial Fetch of Students in Room 1
 
 
 
 window.onload = function () {
   // fetchStudents();
-  loadProfileOnInit();
- hideAdminForm();
+  // loadProfileOnInit();
+  fetchStudents(roomNo);
+  hideAdminForm()
  addCards();
 };
 // ============================Adding student to tabble end======================

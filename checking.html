@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hostel Management</title>
+
+  <!-- Include Firebase v9+ Modular SDK with type="module" -->
+  <script type="module">
+    // Import Firebase app and database from modular SDK
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js';
+    import { getDatabase, ref, set, push, get, child } from 'https://www.gstatic.com/firebasejs/9.18.0/firebase-database.js';
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDBhFbglhN1Qoig5tlkWhhD0zrF6MNgPVE",
+      authDomain: "hostel-management-system-4725f.firebaseapp.com",
+      databaseURL: "https://hostel-management-system-4725f-default-rtdb.firebaseio.com",
+      projectId: "hostel-management-system-4725f",
+      storageBucket: "hostel-management-system-4725f.appspot.com",
+      messagingSenderId: "172390574707",
+      appId: "1:172390574707:web:000114bf8d124e0cf09806",
+      measurementId: "G-41P2WQQ19F"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const studentFormDB = ref(db, 'StudentForm');
+
+    // Handle form submission
+    document.getElementById("Addstdform").addEventListener("submit", function (e) {
+      e.preventDefault(); // Prevent page reload on form submit
+
+      // Collect student data from the form
+      const name = document.getElementById("name").value.trim();
+      const fatherName = document.getElementById("father_name").value.trim();
+      const cnic = document.getElementById("cnic").value.trim();
+      const address = document.getElementById("address").value.trim();
+      const blockNo = document.getElementById("block_no").value.trim();
+      const roomNo = document.getElementById("room_no").value.trim();
+      const photoUrl = document.getElementById("photo_url").value.trim();
+
+      // Validate the input fields
+      if (!name || !fatherName || !cnic || !address || !blockNo || !roomNo || !photoUrl) {
+        alert("Please fill all fields.");
+        return;
+      }
+
+      // Check the number of students already in the room
+      checkRoomCapacity(blockNo, roomNo).then((isRoomFull) => {
+        if (isRoomFull) {
+          alert(`Room ${roomNo} in Block ${blockNo} is full! No more than 4 students can be added.`);
+        } else {
+          // Create student data object
+          const studentData = {
+            name,
+            fatherName,
+            cnic,
+            address,
+            blockNo,
+            roomNo,
+            photo: photoUrl,
+          };
+
+          // Push data to Firebase
+          push(studentFormDB, studentData).then(() => {
+            alert("Student added successfully!");
+            document.getElementById("Addstdform").reset(); // Reset form after successful submission
+            fetchStudents(1);  // Fetch and display students in room 1
+          }).catch((error) => {
+            console.error("Error sending data to Firebase:", error);
+            alert("Failed to add student. Try again.");
+          });
+        }
+      });
+    });
+
+    // Check room capacity (max 4 students per room)
+    async function checkRoomCapacity(blockNo, roomNo) {
+      const studentTableBody = document.getElementById("studentTableBody");
+      studentTableBody.innerHTML = '';  // Clear the existing rows
+
+      // Fetch students from Firebase
+      const snapshot = await get(studentFormDB);
+      const studentsData = snapshot.val();
+      
+      let studentCount = 0;
+
+      if (studentsData) {
+        Object.entries(studentsData).forEach(([key, student]) => {
+          if (student.blockNo == blockNo && student.roomNo == roomNo) {
+            studentCount++;
+          }
+        });
+      }
+
+      // If there are less than 4 students in the room, return false (room is not full)
+      return studentCount >= 4;  // Return true if room is full
+    }
+
+    // Fetch and display students in a specific room
+    function fetchStudents(roomNo) {
+      const studentTableBody = document.getElementById("studentTableBody");
+      studentTableBody.innerHTML = '';  // Clear the existing rows
+
+      // Fetch students from Firebase
+      get(studentFormDB).then((snapshot) => {
+        const studentsData = snapshot.val();
+
+        if (studentsData) {
+          Object.entries(studentsData).forEach(([key, student]) => {
+            if (student.roomNo == roomNo) {
+              const row = document.createElement("tr");
+              row.innerHTML = `
+                <td>${student.name}</td>
+                <td>${student.cnic}</td>
+                <td>${student.address}</td>
+                <td>${student.blockNo}</td>
+                <td>${student.roomNo}</td>
+                <td><img src="${student.photo}" alt="Student Photo" width="50" /></td>
+              `;
+              studentTableBody.appendChild(row);
+            }
+          });
+        } else {
+          // If no students found
+          const noDataRow = document.createElement("tr");
+          noDataRow.innerHTML = "<td colspan='6'>No students found in this room</td>";
+          studentTableBody.appendChild(noDataRow);
+        }
+      }).catch((error) => {
+        console.error("Error fetching data from Firebase:", error);
+      });
+    }
+
+    // Fetch and display students in room 1 when the page loads
+    window.onload = function () {
+      fetchStudents(1);  // Show students in room 1
+    };
+
+
+
+
+
+    
+
+
+
+
+  </script>
+</head>
+<body>
+  <h1>Student Form</h1>
+
+  <!-- Form to add student -->
+  <form id="Addstdform">
+    <label for="name">Student Name:</label>
+    <input type="text" id="name" required /><br /><br />
+
+    <label for="father_name">Father's Name:</label>
+    <input type="text" id="father_name" required /><br /><br />
+
+    <label for="cnic">CNIC:</label>
+    <input type="text" id="cnic" required /><br /><br />
+
+    <label for="address">Address:</label>
+    <input type="text" id="address" required /><br /><br />
+
+    <label for="block_no">Block No:</label>
+    <input type="text" id="block_no" required /><br /><br />
+
+    <label for="room_no">Room No:</label>
+    <input type="text" id="room_no" required /><br /><br />
+
+    <label for="photo_url">Photo URL:</label>
+    <input type="url" id="photo_url" placeholder="https://example.com/photo.jpg" /><br /><br />
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <hr>
+
+  <h2>Students in Room 1</h2>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>CNIC</th>
+        <th>Address</th>
+        <th>Block No</th>
+        <th>Room No</th>
+        <th>Photo</th>
+      </tr>
+    </thead>
+    <tbody id="studentTableBody">
+      <!-- Students will be displayed here -->
+    </tbody>
+  </table>
+</body>
+</html>
