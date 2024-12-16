@@ -82,16 +82,21 @@ function CloseAddStudentForm() {
     backdrop.style.display = 'none';
 }
 
-function Roomhandler() {
-    // var allRooms=document.getElementsByClassName("rooms");
-  var Rooms = document.getElementById("room1");
-  // allRooms.style.display = "none";
-  Rooms.style.background = "red";
-  alert("chal raha hon");
-  var allRooms = document.getElementById("myroom");
-  allRooms.style.display = "block";
-    
+function Roomhandler(event) {
+  const button = event.target; // Get the clicked button
+  const roomNumber = button.textContent; // Get the room number from the button text
+
+  // Highlight the selected room
+  document.querySelectorAll('.roomsdiv button').forEach(btn => btn.style.background = '');
+  button.style.background = 'red';
+
+  // Fetch and display students for the selected room
+  alert(`Loading details for ${roomNumber}`);
+  
+  // Dynamically fetch students from Firebase for the selected room
+  fetchStudents(roomNumber);
 }
+
 
 
 
@@ -134,71 +139,71 @@ function addCards() {
 
 // Function to display the rooms
 function showBothBlocks() {
-    const container = document.querySelector('.insight-section');
-    const roomCardsHTML = `
-        <div class="first-rooms-section">
-    <div class="middle">
-        <div class="left">
-            <h1>Block 1 Rooms</h1>
-            <!-- Main Card for Block 1 -->
-            <div class="main-card">
-                <!-- Sub-card 1 for Block 1 (Rooms 1-3) -->
-                <div class="sub-card">
-                    <h2>Rooms 1-3</h2>
-                    <div class="roomsdiv">
-                        <button id="room1" onclick="Roomhandler()">Room 1</button>
-                        <button onclick="Roomhandler()">Room 2</button>
-                        <button onclick="Roomhandler()">Room 3</button>
-                    </div>
-                </div>
+  const container = document.querySelector('.insight-section');
+  const roomCardsHTML = `
+      <div class="first-rooms-section">
+          <div class="middle">
+              <div class="left">
+                  <h1>Block 1 Rooms</h1>
+                  <!-- Main Card for Block 1 -->
+                  <div class="main-card">
+                      <!-- Sub-card 1 for Block 1 (Rooms 1-3) -->
+                      <div class="sub-card">
+                          <h2>Rooms 1-3</h2>
+                          <div class="roomsdiv">
+                              <button id="room1" onclick="Roomhandler(event)">Room 1</button>
+                              <button onclick="Roomhandler(event)">Room 2</button>
+                              <button onclick="Roomhandler(event)">Room 3</button>
+                          </div>
+                      </div>
 
-                <!-- Sub-card 2 for Block 1 (Rooms 4-6) -->
-                <div class="sub-card">
-                    <h2>Rooms 4-6</h2>
-                    <div class="roomsdiv">
-                        <button onclick="Roomhandler()">Room 4</button>
-                        <button onclick="Roomhandler()">Room 5</button>
-                        <button onclick="Roomhandler()">Room 6</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                      <!-- Sub-card 2 for Block 1 (Rooms 4-6) -->
+                      <div class="sub-card">
+                          <h2>Rooms 4-6</h2>
+                          <div class="roomsdiv">
+                              <button onclick="Roomhandler(event)">Room 4</button>
+                              <button onclick="Roomhandler(event)">Room 5</button>
+                              <button onclick="Roomhandler(event)">Room 6</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
 
-<div class="second-rooms-section">
-    <div class="middle">
-        <div class="left">
-            <h1>Block 2 Rooms</h1>
-            <!-- Main Card for Block 2 -->
-            <div class="main-card">
-                <!-- Sub-card 1 for Block 2 (Rooms 1-3) -->
-                <div class="sub-card">
-                    <h2>Rooms 1-3</h2>
-                    <div class="roomsdiv">
-                        <button onclick="Roomhandler()">Room 1</button>
-                        <button onclick="Roomhandler()">Room 2</button>
-                        <button onclick="Roomhandler()">Room 3</button>
-                    </div>
-                </div>
+      <div class="second-rooms-section">
+          <div class="middle">
+              <div class="left">
+                  <h1>Block 2 Rooms</h1>
+                  <!-- Main Card for Block 2 -->
+                  <div class="main-card">
+                      <!-- Sub-card 1 for Block 2 (Rooms 1-3) -->
+                      <div class="sub-card">
+                          <h2>Rooms 1-3</h2>
+                          <div class="roomsdiv">
+                              <button onclick="Roomhandler(event)">Room 1</button>
+                              <button onclick="Roomhandler(event)">Room 2</button>
+                              <button onclick="Roomhandler(event)">Room 3</button>
+                          </div>
+                      </div>
 
-                <!-- Sub-card 2 for Block 2 (Rooms 4-6) -->
-                <div class="sub-card">
-                    <h2>Rooms 4-6</h2>
-                    <div class="roomsdiv">
-                        <button onclick="Roomhandler()">Room 4</button>
-                        <button onclick="Roomhandler()">Room 5</button>
-                        <button onclick="Roomhandler()">Room 6</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-    `;
-    container.innerHTML = roomCardsHTML;
+                      <!-- Sub-card 2 for Block 2 (Rooms 4-6) -->
+                      <div class="sub-card">
+                          <h2>Rooms 4-6</h2>
+                          <div class="roomsdiv">
+                              <button onclick="Roomhandler(event)">Room 4</button>
+                              <button onclick="Roomhandler(event)">Room 5</button>
+                              <button onclick="Roomhandler(event)">Room 6</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  `;
+  container.innerHTML = roomCardsHTML;
 }
+
 
 
 
@@ -297,39 +302,83 @@ const studentFormDB = firebase.database().ref("StudentForm");
 document.getElementById("admin-form").addEventListener("submit", function submitAdminForm(e) {
   e.preventDefault(); // Prevent form refresh
 
-  // Get Admin Form Values
-  const adminName = document.getElementById("admin-name").value;
-  const adminEmail = document.getElementById("admin-email").value;
+  // Check if Admin already exists only when creating a new admin
   const adminRole = document.getElementById("admin-role").value;
-  const adminPhoto = document.getElementById("admin-photo").value;
-  const adminPassword = document.getElementById("admin-password").value;
-  const confirmPassword = document.getElementById("confirm-password").value;
+  if (adminRole === "Admin") {
+    adminFormDB.once("value").then(snapshot => {
+      const existingAdmins = snapshot.val();
+      if (existingAdmins) {
+        // If an admin already exists, alert and stop the form submission
+        const adminExists = Object.values(existingAdmins).some(admin => admin.role === "Admin");
+        if (adminExists) {
+          alert("An admin already exists. You cannot create another admin.");
+          return; // Stop the admin form submission
+        }
+      }
 
-  // Check if passwords match
-  if (adminPassword !== confirmPassword) {
-    alert("Passwords do not match!");
-    return;
+      // Get Admin Form Values
+      const adminName = document.getElementById("admin-name").value;
+      const adminEmail = document.getElementById("admin-email").value;
+      const adminPhoto = document.getElementById("admin-photo").value;
+      const adminPassword = document.getElementById("admin-password").value;
+      const confirmPassword = document.getElementById("confirm-password").value;
+
+      // Check if passwords match
+      if (adminPassword !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      // Prepare Admin Data
+      const adminData = {
+        name: adminName,
+        email: adminEmail,
+        role: adminRole,
+        photo: adminPhoto || './Assets/images.png', // Default photo
+        password: adminPassword // Consider hashing in production
+      };
+
+      // Save Admin Data to Firebase
+      adminFormDB.push(adminData).then(() => {
+        alert(`${adminData.role} added successfully!`);
+        updateProfile(adminData);
+        hideAdminForm();
+        document.getElementById("admin-form").reset(); // Reset form
+      }).catch(error => {
+        console.error("Error saving admin data:", error);
+        alert("Failed to add admin. Try again.");
+      });
+    }).catch(error => {
+      console.error("Error checking for existing admins:", error);
+    });
+  } else {
+    // If the role is not Admin, proceed with the form submission (e.g., adding student)
+    const adminName = document.getElementById("admin-name").value;
+    const adminEmail = document.getElementById("admin-email").value;
+    const adminRole = document.getElementById("admin-role").value;
+    const adminPhoto = document.getElementById("admin-photo").value;
+    const adminPassword = document.getElementById("admin-password").value;
+
+    // Prepare Admin Data (this should allow role change, as it's not for creating an admin)
+    const adminData = {
+      name: adminName,
+      email: adminEmail,
+      role: adminRole,
+      photo: adminPhoto || './Assets/images.png', // Default photo
+      password: adminPassword // Consider hashing in production
+    };
+
+    // Save Admin Data to Firebase
+    adminFormDB.push(adminData).then(() => {
+      alert(`${adminData.role} updated successfully!`);
+      updateProfile(adminData);
+      hideAdminForm();
+      document.getElementById("admin-form").reset(); // Reset form
+    }).catch(error => {
+      console.error("Error saving admin data:", error);
+      alert("Failed to update admin. Try again.");
+    });
   }
-
-  // Prepare Admin Data
-  const adminData = {
-    name: adminName,
-    email: adminEmail,
-    role: adminRole,
-    photo: adminPhoto || './Assets/images.png', // Default photo
-    password: adminPassword // Consider hashing in production
-  };
-
-  // Save Admin Data to Firebase
-  adminFormDB.push(adminData).then(() => {
-    alert(`${adminData.role} added successfully!`);
-    updateProfile(adminData);
-    hideAdminForm();
-    document.getElementById("admin-form").reset(); // Reset form
-  }).catch(error => {
-    console.error("Error saving admin data:", error);
-    alert("Failed to add admin. Try again.");
-  });
 });
 
 // Update Profile Section
@@ -337,6 +386,8 @@ function updateProfile(data) {
   document.getElementById("profile-name").textContent = data.name || "No Profile";
   document.getElementById("profile-role").textContent = data.role || "No Role";
   document.getElementById("profile-photo").src = data.photo || "./Assets/images.png";
+
+  hideAddStudentOption(data);  // Ensure the "Add Student" option is updated
 }
 
 // Hide Admin Form
@@ -345,7 +396,7 @@ function hideAdminForm() {
 }
 
 // Load Admin Profile on Init
-document.addEventListener("DOMContentLoaded", function loadAdminProfile() {
+ function loadAdminProfile() {
   adminFormDB.once("value").then(snapshot => {
     const data = snapshot.val();
     if (data) {
@@ -357,7 +408,17 @@ document.addEventListener("DOMContentLoaded", function loadAdminProfile() {
   }).catch(error => {
     console.error("Error loading admin profile:", error);
   });
-});
+};
+
+// Function to hide Add Student Option based on Role
+function hideAddStudentOption(data) {
+  const addStudentOption = document.getElementById("add-student-option");
+  if (data.role === "Student") {
+    addStudentOption.style.display = "none"; // Hide for non-admin roles
+  } else {
+    addStudentOption.style.display = "flex"; // Show for admin roles
+  }
+}
 
 /**
  * Student Form Functionality
@@ -417,121 +478,108 @@ async function checkRoomCapacity(blockNo, roomNo) {
   }
 
   return studentCount >= 4; // True if room is full
+  // fetchStudents(roomNo);
 }
 
 // Fetch and Display Students
+// document.addEventListener("DOMContentLoaded",function fetchStudents(roomNo) {
+//   const tableBody = document.getElementById("studentTableBody");
+//   tableBody.innerHTML = `        
+//      <thead>
+//               <th>Name</th>
+//               <th>CNIC</th>
+//               <th>Address</th>
+//               <th>Block No</th>
+//               <th>Room No</th>
+//               <th>Photo</th>
+//       </thead>
+//       `; // Clear existing rows
+
+//   studentFormDB.get().then(snapshot => {
+//     const students = snapshot.val();
+//     if (students) {
+//       Object.values(students).forEach(student => {
+//         if (student.roomNo == roomNo) {
+//           const row = document.createElement("tr");
+//           row.innerHTML = `
+//             <td>${student.name}</td>
+//             <td>${student.cnic}</td>
+//             <td>${student.address}</td>
+//             <td>${student.blockNo}</td>
+//             <td>${student.roomNo}</td>
+//             <td><img src="${student.photo}" alt="Photo" width="50"></td>
+//           `;
+//           tableBody.appendChild(row);
+//         }
+//       });
+//     } else {
+//       tableBody.innerHTML = `<tr><td colspan="6">No students found in this room</td></tr>`;
+//     }
+//   }).catch(error => {
+//     console.error("Error fetching students:", error);
+//   });
+// });
 function fetchStudents(roomNo) {
   const tableBody = document.getElementById("studentTableBody");
-  tableBody.innerHTML = `        
-     <thead>
-              <th>Name</th>
-              <th>CNIC</th>
-              <th>Address</th>
-              <th>Block No</th>
-              <th>Room No</th>
-              <th>Photo</th>
-      </thead>
-      `; // Clear existing rows
+  const tableHeader = document.getElementById("studentTableHeader");
 
+  // Clear any previous rows in the table
+  tableBody.innerHTML = "";
+  tableHeader.innerHTML = ""; // Clear the table header
+
+  // Create the table header
+  const headerRow = document.createElement("tr");
+  headerRow.innerHTML = `
+      <th>Name</th>
+      <th>CNIC</th>
+      <th>Address</th>
+      <th>Block No</th>
+      <th>Room No</th>
+      <th>Photo</th>
+  `;
+  tableHeader.appendChild(headerRow); // Append header row to the table header
+
+  // Query Firebase for students data
   studentFormDB.get().then(snapshot => {
-    const students = snapshot.val();
-    if (students) {
-      Object.values(students).forEach(student => {
-        if (student.roomNo == roomNo) {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>${student.name}</td>
-            <td>${student.cnic}</td>
-            <td>${student.address}</td>
-            <td>${student.blockNo}</td>
-            <td>${student.roomNo}</td>
-            <td><img src="${student.photo}" alt="Photo" width="50"></td>
-          `;
-          tableBody.appendChild(row);
-        }
-      });
-    } else {
-      tableBody.innerHTML = `<tr><td colspan="6">No students found in this room</td></tr>`;
-    }
+      const students = snapshot.val();
+      if (students) {
+          Object.values(students).forEach(student => {
+              if (student.roomNo == roomNo) {
+                  // Create a new row for each student
+                  const row = document.createElement("tr");
+                  row.innerHTML = `
+                      <td>${student.name}</td>
+                      <td>${student.cnic}</td>
+                      <td>${student.address}</td>
+                      <td>${student.blockNo}</td>
+                      <td>${student.roomNo}</td>
+                      <td><img src="${student.photo}" alt="Photo" width="50"></td>
+                  `;
+                  tableBody.appendChild(row); // Append the row to the table body
+              }
+          });
+      } else {
+          // If no students found for the selected room, show a message
+          tableBody.innerHTML = `<tr><td colspan="6">No students found in this room</td></tr>`;
+      }
   }).catch(error => {
-    console.error("Error fetching students:", error);
+      console.error("Error fetching students:", error);
+      tableBody.innerHTML = `<tr><td colspan="6">Error fetching data. Please try again later.</td></tr>`;
   });
 }
-const roomNo = document.getElementById("room_no").value.trim();
 
-// Initial Fetch of Students in Room 1
+
 
 
 
 window.onload = function () {
   // fetchStudents();
   // loadProfileOnInit();
-  fetchStudents(roomNo);
-  hideAdminForm()
+  loadAdminProfile();
+  // fetchStudents(roomNo);
+  hideAdminForm();
  addCards();
 };
-// ============================Adding student to tabble end======================
-
-
-// function updateProfile(data) {
-//   const profileName = document.getElementById("profile-name");
-//   const profileRole = document.getElementById("profile-role");
-//   const profilePhoto = document.getElementById("profile-photo");
-
-//   if (data) {
-//     profileName.textContent = data.name || "No Profile";
-//     profileRole.textContent = data.role || "No Role";
-//     profilePhoto.src = data.photo || "./Assets/images.png";
-//   } else {
-//     profileName.textContent = "No Profile";
-//     profileRole.textContent = "No Role";
-//     profilePhoto.src = "./Assets/images.png";
-//   }
-// }
-
-function hideAdminForm() {
-  const adminForm = document.getElementById("form-container");
-  adminForm.style.display = "none";
-  
-}
-
-
-// Function to show the alert box and start the progress bar
-function showAlert(adminData) {
-  const alertBox = document.getElementById("alertBox");
-  const progressBar = document.getElementById("progressBar");
-  const roleSpan = document.getElementById("Role-spn");
-
-  // Set role-specific message
-  if (adminData.role === "Admin") {
-    roleSpan.textContent = "Admin Created";
-  } else if (adminData.role === "Student") {
-    roleSpan.textContent = "Student Registered";
-  } else {
-    roleSpan.textContent = "User Created";
-  }
-
-  // Display the alert box
-  alertBox.style.display = "block";
-
-  // Start filling the progress bar
-  setTimeout(() => {
-    progressBar.style.width = "100%";
-  }, 100); // Slight delay for smoother animation
-
-  // Automatically hide the alert after the progress bar animation completes
-  setTimeout(() => {
-    alertBox.style.animation = "fadeOut 0.5s ease forwards";
-    setTimeout(() => {
-      alertBox.style.display = "none";
-    }, 500); // Matches fadeOut duration
-  }, 3000); // Matches progress bar duration
-  hideAddStudentOption(adminData.role)
-}
-
-
-
-
 
 // ===================Alert box js end==========================
 
