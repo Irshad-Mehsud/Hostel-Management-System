@@ -8,6 +8,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon"
     />
+    <link rel="stylesheet" href="complaint.css">
     <!-- <link rel="stylesheet" href="alertbox.css"> -->
     <title>Document</title>
 
@@ -68,11 +69,22 @@
             <span class="icon">💳</span>
             <h3>Payments</h3>
           </a>
-
           <a href="#" id="complaints">
             <span class="icon">📢</span>
             <h3>Complaints</h3>
           </a>
+          
+          <a href="#" id="make-complaints" class="hidden" onclick="handleSubmit(event)">
+            <span class="icon">📝</span> <!-- Pencil icon for making a complaint -->
+            <h3>Make a Complaint</h3>
+          </a>
+          
+          <a href="#" id="see-complaints" class="hidden" onclick=" renderComplaints(event)">
+            <span class="icon">👀</span> <!-- Eye icon for seeing all complaints -->
+            <h3>See All Complaints</h3>
+          </a>
+          
+
           <!-- <a href="#" id="visitors">
                     <span class="icon">🪪</span>
                   <h3>Visitors Log</h3>
@@ -201,8 +213,9 @@
             </div>
             <!-- Dropdown Menu -->
             <div id="profile-dropdown" class="dropdown-content">
-              <a href="#" onclick="showAdminForm()">Create Admin</a>
-              <a href="#" id="view-profile-btn" onclick="viewProfile()">View Profile</a>
+              <a href="#" onclick="showAdminForm()">Create Account</a>
+              <a href="#" onclick="showAdminForm()">Login</a>
+              <a href="./veiwprofile.html" id="view-profile-btn">View Profile</a>
               <a href="#" onclick="loadProfileForEditing()">Edit Profile</a>
               <a href="#" onclick="logoutAdmin()">Logout</a>
             </div>
@@ -320,20 +333,51 @@
 </div>
 <!-- ====================Admin Form End====================== -->
 
+<!-- ============================Complaint Form start=============== -->
 
-<div id="container" style="display: none;">
-  <!-- Profile Card -->
-  <!-- <div class="profile-card">
-      <div class="profile-header">
-          <img id="profile-photo" class="profile-img" src="" alt="Profile Photo" />
-          <h2 id="profile-name">John Doe</h2>
-      </div>
-      <div class="profile-details">
-          <p><strong>Email:</strong> <span id="profile-email">john.doe@example.com</span></p>
-          <p><strong>Role:</strong> <span id="profile-role">Admin</span></p>
-      </div>
-  </div> -->
-</div>
+<!-- Complaint Form (Initially Hidden) -->
+<!-- <div id="complaint-form" class="hidden">
+  <div class="form-header">
+    <h3 class="form-title">Submit Your Complaint</h3>
+    <button id="close-complaint-form" class="close-btn" onclick="hideComplaintForm()">X</button>
+  </div>
+  <form id="complaint-form-details">
+    <div class="form-group">
+      <label for="complaint-title" class="form-label">Complaint Title:</label>
+      <input type="text" id="complaint-title" name="complaint-title" class="form-input" required>
+    </div>
+
+    <div class="form-group">
+      <label for="complaint-description" class="form-label">Complaint Description:</label>
+      <textarea id="complaint-description" name="complaint-description" class="form-textarea" rows="4" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="complaint-category" class="form-label">Complaint Category:</label>
+      <select id="complaint-category" name="complaint-category" class="form-select" required>
+        <option value="room">Room Issues</option>
+        <option value="payment">Payment Issues</option>
+        <option value="maintenance">Maintenance Issues</option>
+        <option value="behavior">Behavioral Issues</option>
+      </select>
+    </div>
+
+    <div class="form-group"> 
+      <label for="complaint-attachment" class="form-label">Attach File (Optional):</label>
+      <input type="file" id="complaint-attachment" name="complaint-attachment" class="form-file">
+    </div>
+
+    <button type="submit" class="submit-btn">Submit Complaint</button>
+  </form>
+</div> -->
+
+<!-- ============================Complaint Form start=============== -->
+
+
+<!-- <div id="complaint-container">
+
+
+</div> -->
 
 <!-- ====================Admin Form End====================== -->
 <!-- =====================Alert Box============================ -->
@@ -344,6 +388,7 @@
     <div class="progress-bar" id="progressBar"></div>
   </div>
 </div>
+
 <!-- =====================Alert Box============================ -->
 
 
@@ -357,5 +402,7 @@
 <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
 
     <script src="app.js"></script>
+    <script src="veiwprofile.js"></script>
+    <script src="complaint.js"></script>
   </body>
 </html>

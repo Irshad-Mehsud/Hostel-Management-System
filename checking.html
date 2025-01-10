@@ -3,15 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hostel Management</title>
+  <title>Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f4;
+    }
+    .login-container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 450px;
+      height: 250px;
+    }
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .login-container input {
+      width: 95%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    .login-container button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .login-container button:hover {
+      background-color: #0056b3;
+    }
+    .error-message {
+      color: red;
+      text-align: center;
+      display: none;
+    }
+  </style>
+</head>
+<body>
 
-  <!-- Include Firebase v9+ Modular SDK with type="module" -->
-  <script type="module">
-    // Import Firebase app and database from modular SDK
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js';
-    import { getDatabase, ref, set, push, get, child } from 'https://www.gstatic.com/firebasejs/9.18.0/firebase-database.js';
+  <div class="login-container">
+    <h2>Login</h2>
+    <div class="error-message" id="error-message">Invalid email or password</div>
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button onclick="login()">Login</button>
+  </div>
+<!-- <a href="./veiwprofile.html"></a> -->
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
-    // Firebase configuration
+  <script>
+    // Firebase Configuration
     const firebaseConfig = {
       apiKey: "AIzaSyDBhFbglhN1Qoig5tlkWhhD0zrF6MNgPVE",
       authDomain: "hostel-management-system-4725f.firebaseapp.com",
@@ -24,440 +80,61 @@
     };
 
     // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const studentFormDB = ref(db, 'StudentForm');
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth(); // Firebase Auth instance
+    const db = firebase.database(); // Firebase Database instance
 
-    // Handle form submission
-    document.getElementById("Addstdform").addEventListener("submit", function (e) {
-      e.preventDefault(); // Prevent page reload on form submit
+    /**
+     * Login function
+     */
+    function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
-      // Collect student data from the form
-      const name = document.getElementById("name").value.trim();
-      const fatherName = document.getElementById("father_name").value.trim();
-      const cnic = document.getElementById("cnic").value.trim();
-      const address = document.getElementById("address").value.trim();
-      const blockNo = document.getElementById("block_no").value.trim();
-      const roomNo = document.getElementById("room_no").value.trim();
-      const photoUrl = document.getElementById("photo_url").value.trim();
+      // Clear error message
+      document.getElementById("error-message").style.display = "none";
 
-      // Validate the input fields
-      if (!name || !fatherName || !cnic || !address || !blockNo || !roomNo || !photoUrl) {
-        alert("Please fill all fields.");
-        return;
-      }
+      // Sign in using Firebase Authentication
+      auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log("Logged in as: ", user.email);
 
-      // Check the number of students already in the room
-      checkRoomCapacity(blockNo, roomNo).then((isRoomFull) => {
-        if (isRoomFull) {
-          alert(`Room ${roomNo} in Block ${blockNo} is full! No more than 4 students can be added.`);
-        } else {
-          // Create student data object
-          const studentData = {
-            name,
-            fatherName,
-            cnic,
-            address,
-            blockNo,
-            roomNo,
-            photo: photoUrl,
-          };
+          // Save user data in Realtime Database
+          saveUserData(user);
 
-          // Push data to Firebase
-          push(studentFormDB, studentData).then(() => {
-            alert("Student added successfully!");
-            document.getElementById("Addstdform").reset(); // Reset form after successful submission
-            fetchStudents(1);  // Fetch and display students in room 1
-          }).catch((error) => {
-            console.error("Error sending data to Firebase:", error);
-            alert("Failed to add student. Try again.");
-          });
-        }
-      });
-    });
-
-    // Check room capacity (max 4 students per room)
-    async function checkRoomCapacity(blockNo, roomNo) {
-      const studentTableBody = document.getElementById("studentTableBody");
-      studentTableBody.innerHTML = '';  // Clear the existing rows
-
-      // Fetch students from Firebase
-      const snapshot = await get(studentFormDB);
-      const studentsData = snapshot.val();
-      
-      let studentCount = 0;
-
-      if (studentsData) {
-        Object.entries(studentsData).forEach(([key, student]) => {
-          if (student.blockNo == blockNo && student.roomNo == roomNo) {
-            studentCount++;
-          }
+          // Redirect to another page after successful login
+          window.location.href = "veiwprofile.html"; // Change this to your desired page
+        })
+        .catch((error) => {
+          const errorMessage = error.message;
+          console.error("Error signing in: ", errorMessage);
+          // Show error message
+          document.getElementById("error-message").style.display = "block";
         });
-      }
-
-      // If there are less than 4 students in the room, return false (room is not full)
-      return studentCount >= 4;  // Return true if room is full
     }
 
-    // Fetch and display students in a specific room
-    function fetchStudents(roomNo) {
-      const studentTableBody = document.getElementById("studentTableBody");
-      studentTableBody.innerHTML = '';  // Clear the existing rows
+    /**
+     * Save user data to Firebase Realtime Database
+     */
+    function saveUserData(user) {
+      const userId = user.uid;
+      const userData = {
+        email: user.email,
+        name: user.displayName || "Unknown", // If the user has a display name, use it
+        uid: userId
+      };
 
-      // Fetch students from Firebase
-      get(studentFormDB).then((snapshot) => {
-        const studentsData = snapshot.val();
-
-        if (studentsData) {
-          Object.entries(studentsData).forEach(([key, student]) => {
-            if (student.roomNo == roomNo) {
-              const row = document.createElement("tr");
-              row.innerHTML = `
-                <td>${student.name}</td>
-                <td>${student.cnic}</td>
-                <td>${student.address}</td>
-                <td>${student.blockNo}</td>
-                <td>${student.roomNo}</td>
-                <td><img src="${student.photo}" alt="Student Photo" width="50" /></td>
-              `;
-              studentTableBody.appendChild(row);
-            }
-          });
-        } else {
-          // If no students found
-          const noDataRow = document.createElement("tr");
-          noDataRow.innerHTML = "<td colspan='6'>No students found in this room</td>";
-          studentTableBody.appendChild(noDataRow);
-        }
-      }).catch((error) => {
-        console.error("Error fetching data from Firebase:", error);
-      });
+      // Save user data under "Users" node in Realtime Database
+      db.ref("Users/" + userId).set(userData)
+        .then(() => {
+          console.log("User data saved to database.");
+        })
+        .catch((error) => {
+          console.error("Error saving user data: ", error);
+        });
     }
-
-    // Fetch and display students in room 1 when the page loads
-    window.onload = function () {
-      fetchStudents(1);  // Show students in room 1
-    };
-
-
-
-
-
-    //===============================================
-
-    const firebaseConfig = {
-  apiKey: "AIzaSyDBhFbglhN1Qoig5tlkWhhD0zrF6MNgPVE",
-  authDomain: "hostel-management-system-4725f.firebaseapp.com",
-  databaseURL: "https://hostel-management-system-4725f-default-rtdb.firebaseio.com",
-  projectId: "hostel-management-system-4725f",
-  storageBucket: "hostel-management-system-4725f.appspot.com",
-  messagingSenderId: "172390574707",
-  appId: "1:172390574707:web:000114bf8d124e0cf09806",
-  measurementId: "G-41P2WQQ19F"
-};
-
-// Initialize Firebase only if not already initialized
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
-
-// References to Firebase Database
-const adminFormDB = firebase.database().ref("adminForm");
-const studentFormDB = firebase.database().ref("StudentForm");
-
-/**
- * Admin Form Functionality
- */
-// Handle Admin Form Submission
-document.getElementById("admin-form").addEventListener("submit", function submitAdminForm(e) {
-  e.preventDefault(); // Prevent form refresh
-
-  // Get Admin Form Values
-  const adminName = document.getElementById("admin-name").value;
-  const adminEmail = document.getElementById("admin-email").value;
-  const adminRole = document.getElementById("admin-role").value;
-  const adminPhoto = document.getElementById("admin-photo").value;
-  const adminPassword = document.getElementById("admin-password").value;
-  const confirmPassword = document.getElementById("confirm-password").value;
-
-  // Check if passwords match
-  if (adminPassword !== confirmPassword) {
-    alert("Passwords do not match!");
-    return;
-  }
-  // Prepare Admin Data
-  const adminData = {
-    name: adminName,
-    email: adminEmail,
-    role: adminRole,
-    photo: adminPhoto || './Assets/images.png', // Default photo
-    password: adminPassword // Consider hashing in production
-  };
-
-  // Save Admin Data to Firebase
-  adminFormDB.push(adminData).then(() => {
-    alert(`${adminData.role} added successfully!`);
-    updateProfile(adminData);
-    hideAdminForm();
-    document.getElementById("admin-form").reset(); // Reset form
-  }).catch(error => {
-    console.error("Error saving admin data:", error);
-    alert("Failed to add admin. Try again.");
-  });
-});
-// Update Profile Section
-function updateProfile(data) {
-  document.getElementById("profile-name").textContent = data.name || "No Profile";
-  document.getElementById("profile-role").textContent = data.role || "No Role";
-  document.getElementById("profile-photo").src = data.photo || "./Assets/images.png";
-}
-
-// Hide Admin Form
-function hideAdminForm() {
-  document.getElementById("form-container").style.display = "none";
-}
-
-// Load Admin Profile on Init
-document.addEventListener("DOMContentLoaded", function loadAdminProfile() {
-  adminFormDB.once("value").then(snapshot => {
-    const data = snapshot.val();
-    if (data) {
-      const latestAdmin = Object.values(data).pop(); // Get the most recent admin
-      updateProfile(latestAdmin);
-    } else {
-      console.log("No admin profiles found.");
-    }
-  }).catch(error => {
-    console.error("Error loading admin profile:", error);
-  });
-});
-
-/**
- * Student Form Functionality
- */
-// Handle Student Form Submission
-document.getElementById("Addstdform").addEventListener("submit", function (e) {
-  e.preventDefault(); // Prevent page reload
-
-  // Get Student Form Values
-  const name = document.getElementById("name").value.trim();
-  const fatherName = document.getElementById("father_name").value.trim();
-  const cnic = document.getElementById("cnic").value.trim();
-  const address = document.getElementById("address").value.trim();
-  const blockNo = document.getElementById("block_no").value.trim();
-  const roomNo = document.getElementById("room_no").value.trim();
-  const photoUrl = document.getElementById("photo_url").value.trim();
-
-  // Validate Required Fields
-  if (!name || !fatherName || !cnic || !address || !blockNo || !roomNo || !photoUrl) {
-    alert("Please fill all fields.");
-    return;
-  }
-
-  // Check Room Capacity
-  checkRoomCapacity(blockNo, roomNo).then(isRoomFull => {
-    if (isRoomFull) {
-      alert(`Room ${roomNo} in Block ${blockNo} is full! No more than 4 students can be added.`);
-    } else {
-      // Prepare Student Data
-      const studentData = { name, fatherName, cnic, address, blockNo, roomNo, photo: photoUrl };
-
-      // Save Student Data to Firebase
-      studentFormDB.push(studentData).then(() => {
-        alert("Student added successfully!");
-        document.getElementById("Addstdform").reset(); // Reset form
-        fetchStudents(roomNo); // Refresh students table
-      }).catch(error => {
-        console.error("Error saving student data:", error);
-        alert("Failed to add student. Try again.");
-      });
-    }
-  });
-});
-
-// Check Room Capacity
-async function checkRoomCapacity(blockNo, roomNo) {
-  const snapshot = await studentFormDB.get();
-  const students = snapshot.val();
-  let studentCount = 0;
-
-  if (students) {
-    Object.values(students).forEach(student => {
-      if (student.blockNo == blockNo && student.roomNo == roomNo) {
-        studentCount++;
-      }
-    });
-  }
-
-  return studentCount >= 4; // True if room is full
-}
-
-// Fetch and Display Students
-function fetchStudents(roomNo) {
-  const tableBody = document.getElementById("studentTableBody");
-  tableBody.innerHTML = `        
-     <thead>
-              <th>Name</th>
-              <th>CNIC</th>
-              <th>Address</th>
-              <th>Block No</th>
-              <th>Room No</th>
-              <th>Photo</th>
-      </thead>
-      `; // Clear existing rows
-
-  studentFormDB.get().then(snapshot => {
-    const students = snapshot.val();
-    if (students) {
-      Object.values(students).forEach(student => {
-        if (student.roomNo == roomNo) {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>${student.name}</td>
-            <td>${student.cnic}</td>
-            <td>${student.address}</td>
-            <td>${student.blockNo}</td>
-            <td>${student.roomNo}</td>
-            <td><img src="${student.photo}" alt="Photo" width="50"></td>
-          `;
-          tableBody.appendChild(row);
-        }
-      });
-    } else {
-      tableBody.innerHTML = `<tr><td colspan="6">No students found in this room</td></tr>`;
-    }
-  }).catch(error => {
-    console.error("Error fetching students:", error);
-  });
-}
-const roomNo = document.getElementById("room_no").value.trim();
-
-// Initial Fetch of Students in Room 1
-
-
-
-window.onload = function () {
-  // fetchStudents();
-  // loadProfileOnInit();
-  // loadAdminProfile();
-  fetchStudents(roomNo);
-  hideAdminForm()
- addCards();
-};
-// ============================Adding student to tabble end======================
-
-
-// function updateProfile(data) {
-//   const profileName = document.getElementById("profile-name");
-//   const profileRole = document.getElementById("profile-role");
-//   const profilePhoto = document.getElementById("profile-photo");
-
-//   if (data) {
-//     profileName.textContent = data.name || "No Profile";
-//     profileRole.textContent = data.role || "No Role";
-//     profilePhoto.src = data.photo || "./Assets/images.png";
-//   } else {
-//     profileName.textContent = "No Profile";
-//     profileRole.textContent = "No Role";
-//     profilePhoto.src = "./Assets/images.png";
-//   }
-// }
-
-function hideAdminForm() {
-  const adminForm = document.getElementById("form-container");
-  adminForm.style.display = "none";
-  
-}
-
-
-// Function to show the alert box and start the progress bar
-function showAlert(adminData) {
-  const alertBox = document.getElementById("alertBox");
-  const progressBar = document.getElementById("progressBar");
-  const roleSpan = document.getElementById("Role-spn");
-
-  // Set role-specific message
-  if (adminData.role === "Admin") {
-    roleSpan.textContent = "Admin Created";
-  } else if (adminData.role === "Student") {
-    roleSpan.textContent = "Student Registered";
-  } else {
-    roleSpan.textContent = "User Created";
-  }
-
-  // Display the alert box
-  alertBox.style.display = "block";
-
-  // Start filling the progress bar
-  setTimeout(() => {
-    progressBar.style.width = "100%";
-  }, 100); // Slight delay for smoother animation
-
-  // Automatically hide the alert after the progress bar animation completes
-  setTimeout(() => {
-    alertBox.style.animation = "fadeOut 0.5s ease forwards";
-    setTimeout(() => {
-      alertBox.style.display = "none";
-    }, 500); // Matches fadeOut duration
-  }, 3000); // Matches progress bar duration
-  hideAddStudentOption(adminData.role)
-}
-
-
-
-
-
-
-
-
   </script>
-</head>
-<body>
-  <h1>Student Form</h1>
-
-  <!-- Form to add student -->
-  <form id="Addstdform">
-    <label for="name">Student Name:</label>
-    <input type="text" id="name" required /><br /><br />
-
-    <label for="father_name">Father's Name:</label>
-    <input type="text" id="father_name" required /><br /><br />
-
-    <label for="cnic">CNIC:</label>
-    <input type="text" id="cnic" required /><br /><br />
-
-    <label for="address">Address:</label>
-    <input type="text" id="address" required /><br /><br />
-
-    <label for="block_no">Block No:</label>
-    <input type="text" id="block_no" required /><br /><br />
-
-    <label for="room_no">Room No:</label>
-    <input type="text" id="room_no" required /><br /><br />
-
-    <label for="photo_url">Photo URL:</label>
-    <input type="url" id="photo_url" placeholder="https://example.com/photo.jpg" /><br /><br />
-
-    <button type="submit">Submit</button>
-  </form>
-
-  <hr>
-
-  <h2>Students in Room 1</h2>
-  <table border="1">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>CNIC</th>
-        <th>Address</th>
-        <th>Block No</th>
-        <th>Room No</th>
-        <th>Photo</th>
-      </tr>
-    </thead>
-    <tbody id="studentTableBody">
-      <!-- Students will be displayed here -->
-    </tbody>
-  </table>
+  
 </body>
 </html>

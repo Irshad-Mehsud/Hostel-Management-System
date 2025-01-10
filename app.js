@@ -566,27 +566,97 @@ function fetchStudents(roomNo) {
       console.error("Error fetching students:", error);
       tableBody.innerHTML = `<tr><td colspan="6">Error fetching data. Please try again later.</td></tr>`;
   });
+  
+}
+
+function showAlert(adminData) {
+  const alertBox = document.getElementById("alertBox");
+  const progressBar = document.getElementById("progressBar");
+  const roleSpan = document.getElementById("Role-spn");
+
+  // Set role-specific message
+  switch (adminData.role) {
+    case "Admin":
+      roleSpan.textContent = "Admin Created";
+      break;
+    case "Student":
+      roleSpan.textContent = "Student Registered";
+      break;
+    default:
+      roleSpan.textContent = "User Created";
+      break;
+  }
+
+  // Display the alert box
+  alertBox.style.display = "block";
+
+  // Start filling the progress bar after a slight delay
+  setTimeout(() => {
+    progressBar.style.transition = "width 2s linear"; // Smooth transition for progress bar
+    progressBar.style.width = "100%";
+  }, 100); // Slight delay for smoother animation
+
+  // Automatically hide the alert after the progress bar animation completes
+  setTimeout(() => {
+    // Fade out the alert box
+    alertBox.style.animation = "fadeOut 0.5s ease forwards";
+    
+    // After fade-out animation completes, hide alert and reset progress bar
+    setTimeout(() => {
+      alertBox.style.display = "none";  // Hide the alert box
+      progressBar.style.width = "0%";  // Reset the progress bar width
+    }, 500); // Duration of fade-out animation
+  }, 3000); // Duration of progress bar animation
 }
 
 
 
 
 
+// =======================================complaint dropdown js=======================
+document.addEventListener('DOMContentLoaded', function () {
+  const complaintsToggle = document.getElementById('complaints');
+  const makeComplaint = document.getElementById('make-complaints');
+  const seeComplaints = document.getElementById('see-complaints');
+
+  // Toggle visibility of the complaint options
+  complaintsToggle.addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent default link behavior
+
+    // Toggle the visibility of the complaint options
+    makeComplaint.classList.toggle('hidden');
+    seeComplaints.classList.toggle('hidden');
+  });
+});
+
+// =======================================complaint dropdown js end=======================
 window.onload = function () {
-  // fetchStudents();
-  // loadProfileOnInit();
+  // renderComplaints();
   loadAdminProfile();
-  // fetchStudents(roomNo);
   hideAdminForm();
- addCards();
+  addCards();
 };
+
 
 // ===================Alert box js end==========================
 
 
 
 
+function handleSubmit(event) {
+  // Prevent the default form submission behavior
+  event.preventDefault();
 
+  // Here, you can process the form data if needed (e.g., send it to a server)
+  // For now, we'll just redirect to another page.
+
+  // Redirect to "complaintform.html"
+  window.location.href = "complaintform.html";
+}
+function redirectToComplaints() {
+  console.log("Redirect function triggered."); // For debugging
+  window.location.href = "complaint.html";
+}
 
 
 

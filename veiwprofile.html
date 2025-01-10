@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Card</title>
+  <style>
+    :root {
+      --clr-primary: #007BFF;
+      --clr-white: #FFFFFF;
+    }
+
+    #container {
+      /* display: none;  */
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    /* Profile Card Styles */
+    .profile-card {
+      position: relative;
+      background-color: var(--clr-white);
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      width: 600px;
+      height: 450px;
+      padding: 20px;
+      top: 30px;
+      text-align: center;
+    }
+
+    .profile-header {
+      position: relative;
+    }
+
+    .profile-img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+      object-fit: cover;
+      border: 4px solid var(--clr-primary);
+    }
+
+    .profile-header h2 {
+      font-size: 22px;
+      font-weight: bold;
+      margin: 0;
+      color: #333;
+    }
+
+    .profile-details {
+      margin-top: 20px;
+      color: #555;
+      font-size: 16px;
+    }
+
+    .profile-details p {
+      margin: 8px 0;
+    }
+
+    .profile-details strong {
+      color: var(--clr-primary);
+    }
+
+    #profile-name {
+      color: var(--clr-primary);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: var(--clr-primary);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 22px;
+      font-weight: bold;
+      cursor: pointer;
+      line-height: 30px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .close-btn:hover {
+      background: var(--clr-primary);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      .profile-card {
+        width: 80%;
+      }
+
+      .profile-img {
+        width: 80px;
+        height: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- <div class="profile-card">
+      <div class="profile-header">
+        <img id="profile-photo" class="profile-img" src="" alt="Profile Photo" />
+        <h2 id="profile-name">John Doe</h2>
+      </div>
+      <div class="profile-details">
+        <p><strong>Email:</strong> <span id="profile-email">john.doe@example.com</span></p>
+        <p><strong>Role:</strong> <span id="profile-role">Admin</span></p>
+      </div>
+      <button class="close-btn" onclick="hideProfile()">×</button>
+    </div> -->
+  </div>
+
+  <!-- Firebase SDK --><!-- Firebase SDK v8 (non-modular) -->
+  
+<!-- Firebase SDK v8 (non-modular) -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+<script src="veiwprofile.js"></script>
+
+
+<!-- 
+  <script>
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDBhFbglhN1Qoig5tlkWhhD0zrF6MNgPVE",
+      authDomain: "hostel-management-system-4725f.firebaseapp.com",
+      databaseURL: "https://hostel-management-system-4725f-default-rtdb.firebaseio.com",
+      projectId: "hostel-management-system-4725f",
+      storageBucket: "hostel-management-system-4725f.appspot.com",
+      messagingSenderId: "172390574707",
+      appId: "1:172390574707:web:000114bf8d124e0cf09806",
+      measurementId: "G-41P2WQQ19F"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // Reference to the Firebase database for adminForm
+    const adminFormDB = db.ref("adminForm");
+
+    /**
+     * Fetch and Display Admin Profile
+     */
+    function fetchAndDisplayProfile() {
+      console.log("Fetching data from Firebase...");
+
+      adminFormDB.once("value")
+        .then(snapshot => {
+          const admins = snapshot.val();
+          console.log("Snapshot data:", admins);
+
+          if (!admins) {
+            alert("No admin data found.");
+            return;
+          }
+
+          // Find the admin profile
+          const adminProfile = Object.values(admins).find(admin => admin.role === "Admin");
+
+          if (!adminProfile) {
+            alert("No admin profile available.");
+            return;
+          }
+
+          console.log("Admin Profile found:", adminProfile);
+          updateProfile(adminProfile);
+        })
+        .catch(error => {
+          console.error("Error fetching admin profile:", error);
+          alert("Failed to fetch profile data. Please try again.");
+        });
+    }
+
+    /**
+     * Update Profile Card UI
+     */
+    function updateProfile(profile) {
+      document.getElementById("profile-photo").src = profile.photo || "./Assets/images.png";
+      document.getElementById("profile-name").textContent = profile.name;
+      document.getElementById("profile-email").textContent = profile.email;
+      document.getElementById("profile-role").textContent = profile.role;
+
+      // Show the profile card
+      const container = document.getElementById("container");
+      container.style.display = "flex";
+    }
+
+    /**
+     * Hide Profile Card
+     */
+    function hideProfile() {
+      const container = document.getElementById("container");
+      container.style.display = "none";
+    }
+
+    // Call fetchAndDisplayProfile function when the page loads
+    window.onload = fetchAndDisplayProfile;
+  </script> -->
+</body>
+</html>
