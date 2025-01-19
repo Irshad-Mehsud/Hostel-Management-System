@@ -1,35 +1,3 @@
-// const sideMenu = document.querySelector("aside");
-// const menuBtn = document.querySelector("#menu_bar");
-// const closeBtn = document.querySelector("#close_btn");
-// // menuBtn.document.style.background="red";
-
-// const themeToggler = document.querySelector(".theme-toggler");
-
-// menuBtn.addEventListener("click", () => {
-//     sideMenu.style.display = "block";
-//     console.log("Menu is now visible");
-//     console.log(document.querySelector("aside")); // Should log the <aside> element
-
-// });
-
-// // Optionally, you can add functionality for the close button:
-// closeBtn.addEventListener("click", () => {
-//     sideMenu.style.display = "none";
-//     console.log("Menu is now hidden");
-
-// });
-
-// themeToggler.addEventListener("click",()=>{
-
-//     document.body.classList.toggle("dark-theme-variables")
-
-//     themeToggler.querySelector("span:nth-child(1)").classList.toggle("active");
-//     themeToggler.querySelector("span:nth-child(2)").classList.toggle("active")
-// })
-
-
-
-
 
 const sideMenu = document.querySelector("aside");
 const menuBtn = document.querySelector("#menu_bar");
@@ -204,43 +172,6 @@ function showBothBlocks() {
   container.innerHTML = roomCardsHTML;
 }
 
-
-
-
-// =====================Admin Form Js==============
-//=============11/12/2024=========================
-//================Form Show and Hide Functionaity================ 
-// function validateAndSubmitForm() {
-//   // Get form fields
-//   const name = document.getElementById("admin-name").value.trim();
-//   const email = document.getElementById("admin-email").value.trim();
-//   const role = document.getElementById("admin-role").value.trim();
-//   const photo = document.getElementById("admin-photo").value.trim();
-//   const password = document.getElementById("admin-password").value.trim();
-//   const confirmPassword = document.getElementById("confirm-password").value.trim();
-
-//   // Check if all fields are filled
-//   if (!name || !email || !role || !photo || !password || !confirmPassword) {
-//     alert("Please fill out all fields.");
-//     return false; // Prevent form submission
-//   }
-
-//   // Check if passwords match
-//   if (password !== confirmPassword) {
-//     alert("Passwords do not match!");
-//     return false; // Prevent form submission
-//   }
-
-//   // If validation passes
-//   alert("Form submitted successfully!");
-//   hideAdminForm(); // Hide the form
-//   return true; // Allow form submission
-// }
-
-// function hideAdminForm() {
-//   const adminForm = document.getElementById("form-container");
-//   adminForm.style.display = "none";
-// }
 
 function showAdminForm(){
   let adminForm=document.getElementById("form-container");
@@ -481,44 +412,7 @@ async function checkRoomCapacity(blockNo, roomNo) {
   // fetchStudents(roomNo);
 }
 
-// Fetch and Display Students
-// document.addEventListener("DOMContentLoaded",function fetchStudents(roomNo) {
-//   const tableBody = document.getElementById("studentTableBody");
-//   tableBody.innerHTML = `        
-//      <thead>
-//               <th>Name</th>
-//               <th>CNIC</th>
-//               <th>Address</th>
-//               <th>Block No</th>
-//               <th>Room No</th>
-//               <th>Photo</th>
-//       </thead>
-//       `; // Clear existing rows
 
-//   studentFormDB.get().then(snapshot => {
-//     const students = snapshot.val();
-//     if (students) {
-//       Object.values(students).forEach(student => {
-//         if (student.roomNo == roomNo) {
-//           const row = document.createElement("tr");
-//           row.innerHTML = `
-//             <td>${student.name}</td>
-//             <td>${student.cnic}</td>
-//             <td>${student.address}</td>
-//             <td>${student.blockNo}</td>
-//             <td>${student.roomNo}</td>
-//             <td><img src="${student.photo}" alt="Photo" width="50"></td>
-//           `;
-//           tableBody.appendChild(row);
-//         }
-//       });
-//     } else {
-//       tableBody.innerHTML = `<tr><td colspan="6">No students found in this room</td></tr>`;
-//     }
-//   }).catch(error => {
-//     console.error("Error fetching students:", error);
-//   });
-// });
 function fetchStudents(roomNo) {
   const tableBody = document.getElementById("studentTableBody");
   const tableHeader = document.getElementById("studentTableHeader");
@@ -658,17 +552,35 @@ function redirectToComplaints() {
   window.location.href = "complaint.html";
 }
 
+function logout() {
+  const userId = sessionStorage.getItem('userId');
+console.log('User ID from sessionStorage:', userId)
+  // Get the user ID from sessionStorage (this assumes you store user ID upon login)
+  // const userId = sessionStorage.getItem('userId');  // Example: User ID saved in sessionStorage
 
+  if (userId) {
+    // Reference to the database (user data stored in 'adminForm' or 'StudentForm')
+    const userRef = firebase.database().ref('adminForm').child(userId);  // Adjust to the appropriate path
 
-
-
-
-
-
-
-
-
-
+    // Delete the user from Firebase
+    userRef.remove()
+      .then(() => {
+        alert('User has been logged out and deleted successfully!');
+        
+        // Optionally, clear user data from sessionStorage or localStorage
+        sessionStorage.removeItem('userId');
+        
+        // Redirect user to login page (or any other page as needed)
+        window.location.href = 'login.html';  // Adjust based on your requirement
+      })
+      .catch((error) => {
+        console.error('Error deleting user:', error);
+        alert('Failed to delete user data.');
+      });
+  } else {
+    alert('No user logged in.');
+  }
+}
 
 
 
@@ -689,7 +601,3 @@ function loadProfileForEditing() {
   // Logic to load profile data into the editing form
 }
 
-function logoutAdmin() {
-  alert("Logging out...");
-  // Logic for admin logout
-}

@@ -138,3 +138,109 @@
   
 </body>
 </html>
+
+
+
+// Firebase Configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDBhFbglhN1Qoig5tlkWhhD0zrF6MNgPVE",
+  authDomain: "hostel-management-system-4725f.firebaseapp.com",
+  databaseURL: "https://hostel-management-system-4725f-default-rtdb.firebaseio.com",
+  projectId: "hostel-management-system-4725f",
+  storageBucket: "hostel-management-system-4725f.appspot.com",
+  messagingSenderId: "172390574707",
+  appId: "1:172390574707:web:000114bf8d124e0cf09806",
+  measurementId: "G-41P2WQQ19F",
+};
+
+// Initialize Firebase
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+// Function to Render Complaints
+function renderComplaints() {
+  const complaintContainer = document.getElementById("complaint-container");
+
+  if (!complaintContainer) {
+    console.error("Complaint container not found.");
+    return;
+  }
+
+  // Clear existing complaints
+  complaintContainer.innerHTML = "";
+
+  const complaintsDB = firebase.database().ref("Complaints");
+
+  // Fetch complaints from Firebase
+  complaintsDB.once("value")
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        snapshot.forEach((childSnapshot) => {
+          const complaint = childSnapshot.val();
+          const complaintKey = childSnapshot.key;
+
+          // Create a card for each complaint
+          const card = document.createElement("div");
+          card.classList.add("social-card");
+          card.innerHTML = `
+            <div class="card-header">
+              <img src="${complaint.studentPhoto || 'default-photo.png'}" alt="User Avatar" class="user-avatar">
+              <div class="user-info">
+                <h4 class="user-name">${complaint.studentName || 'Anonymous'}</h4>
+                <span class="post-time">${new Date(complaint.timestamp).toLocaleString()}</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <p class="complaint-title"><strong>Title:</strong> ${complaint.complaintTitle}</p>
+              <p class="complaint-description">${complaint.complaintDescription}</p>
+              <p class="complaint-category"><strong>Category:</strong> ${complaint.complaintCategory}</p>
+              ${
+                complaint.attachmentUrl
+                  ? `
+                <div class="attachment">
+                  <img src="${complaint.attachmentUrl}" alt="Attachment" class="attachment-img">
+                </div>`
+                  : ""
+              }
+            </div>
+            <div class="card-footer">
+              <button class="btn-like">👍 Like</button>
+              <button class="btn-comment">💬 Comment</button>
+              <button class="btn-share">🔗 Share</button>
+              <button class="btn-delete" onclick="deleteComplaint('${complaintKey}')">❌ Delete</button>
+            </div>
+          `;
+
+          complaintContainer.appendChild(card);
+        });
+      } else {
+        complaintContainer.innerHTML = "<p>No complaints found.</p>";
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching complaints:", error);
+    });
+}
+
+// Function to Delete a Complaint
+function deleteComplaint(complaintKey) {
+  const isConfirmed = confirm("Are you sure you want to delete this complaint?");
+  if (isConfirmed) {
+    const complaintsDB = firebase.database().ref("Complaints");
+    complaintsDB
+      .child(complaintKey)
+      .remove()
+      .then(() => {
+        alert("Complaint deleted successfully!");
+        renderComplaints(); // Refresh the complaints
+      })
+      .catch((error) => {
+        console.error("Error deleting complaint:", error);
+      });
+  }
+}
+
+// Render complaints when the page loads
+document.addEventListener("DOMContentLoaded", renderComplaints);
+
